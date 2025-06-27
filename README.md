@@ -1,16 +1,25 @@
-# lead_manager
+# LeadManager
 
-A new Flutter project.
+LeadManager is a Flutter application to manage and view leads efficiently. Built using MVVM architecture and Provider for state management.
 
-## Getting Started
+🚀 Features
 
-This project is a starting point for a Flutter application.
+- User Login
+- View list of leads
+- Profile
+- Search and filter leads
+- Clean UI with responsive design
+- MVVM architecture with Provider
 
-A few resources to get you started if this is your first Flutter project:
+🛠️ Tech Stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter
+- Provider (State Management)
+- MVVM Architecture
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🔧 Installation
+
+- git clone https://github.com/mohamed-sajidh/LeadManager.git
+- cd LeadManager
+- flutter pub get
+- flutter run

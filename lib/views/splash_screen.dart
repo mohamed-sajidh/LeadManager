@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/routes/app_routes.dart';
+import 'package:lead_manager/view_models/access_view_model.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -23,12 +25,15 @@ class _SplashScreenState extends State<SplashScreen> {
   void checkOnboardingScreen(context) {
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     // bool hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
-    // final accessProvider = Provider.of<AccessViewModel>(context, listen: false);
+    final accessProvider = Provider.of<AccessViewModel>(context, listen: false);
+    accessProvider.checkLoginStatus();
 
     Timer(
       const Duration(seconds: 1),
       () {
-        Navigator.pushNamed(context, AppRoutes.login);
+        accessProvider.checkingIsLoggedIn
+            ? Navigator.pushReplacementNamed(context, AppRoutes.home)
+            : Navigator.pushNamed(context, AppRoutes.login);
       },
     );
   }

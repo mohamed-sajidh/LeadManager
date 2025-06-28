@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lead_manager/repositories/user_repository.dart';
+import 'package:lead_manager/routes/app_routes.dart';
 import 'package:lead_manager/widgets/error_toast.dart';
 import 'package:lead_manager/widgets/login_success.dart';
 
@@ -26,6 +27,7 @@ class LoginViewModel extends ChangeNotifier {
         print("api is success");
         if (context.mounted) {
           showSuccessMessage(context, "You're in! Have a great time");
+          Navigator.pushReplacementNamed(context, AppRoutes.home);
         }
       } else {
         if (!context.mounted) return;

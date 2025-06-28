@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
-import 'package:lead_manager/view_models/access_view_model.dart';
-import 'package:provider/provider.dart';
+import 'package:lead_manager/views/home/widgets/single_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -154,22 +152,26 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          const Text("Welcome to home page"),
-          Consumer<AccessViewModel>(builder: (context, provider, child) {
-            return InkWell(
-              onTap: () {
-                provider.isLogout();
-              },
-              child: Container(
-                height: 30,
-                width: 100,
-                color: AppColors.red,
+      body: const SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  SingleCard(
+                    cardIcon: Icons.leaderboard,
+                    cardText: "Total Leads",
+                  ),
+                  SingleCard(
+                    cardIcon: Icons.menu_book,
+                    cardText: "Total Course",
+                  ),
+                ],
               ),
-            );
-          })
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }

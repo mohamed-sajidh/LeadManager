@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:lead_manager/core/constants/api_constants.dart';
 import 'package:lead_manager/data/local/token_storage.dart';
+import 'package:lead_manager/view_models/access_view_model.dart';
+import 'package:provider/provider.dart';
 
 class UserApiServices {
-  Future<String?> loginUser(data) async {
+  Future<String?> loginUser(data, BuildContext context) async {
     try {
       final dio = Dio();
 
@@ -17,6 +20,11 @@ class UserApiServices {
         if (data != null) {
           final String accessToken = data['access'];
           await tokenStorageService.storeToken(accessToken);
+          if (context.mounted) {
+            final accessProvider =
+                Provider.of<AccessViewModel>(context, listen: false);
+            accessProvider.isLogin();
+          }
         }
 
         return null;

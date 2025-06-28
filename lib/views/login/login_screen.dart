@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lead_manager/core/utils/app_assets.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:lead_manager/views/login/widgets/icon_widget.dart';
+import 'package:lead_manager/views/login/widgets/login_button_widget.dart';
 import 'package:lead_manager/views/login/widgets/text_widget.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -74,6 +77,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 5),
                 TextFormField(
+                  controller: emailIdTextcontroller,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'required';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: AppColors.white,
@@ -109,6 +119,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 5),
                 TextFormField(
                   obscureText: _obscurePassword,
+                  controller: passwordTextcontroller,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'required';
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: AppColors.white,
@@ -147,6 +164,31 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 20),
+                LoginButtonWidget(
+                  text: "Login",
+                  onPressed: () {
+                    print("hiajijdif");
+                  },
+                  loading: false,
+                  formKey: formKey,
+                ),
+                const SizedBox(height: 30),
+                textWidget("Or login with"),
+                const SizedBox(height: 30),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconWidget(
+                      text: "Facebook",
+                      img: AppAssets.facebookIcon,
+                    ),
+                    IconWidget(
+                      text: "Google",
+                      img: AppAssets.googleIcon,
+                    ),
+                  ],
+                )
               ],
             ),
           ),

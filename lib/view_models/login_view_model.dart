@@ -27,7 +27,7 @@ class LoginViewModel extends ChangeNotifier {
         print("api is success");
         if (context.mounted) {
           showSuccessMessage(context, "You're in! Have a great time");
-          Navigator.pushReplacementNamed(context, AppRoutes.home);
+          Navigator.pushReplacementNamed(context, AppRoutes.bottom);
         }
       } else {
         if (!context.mounted) return;

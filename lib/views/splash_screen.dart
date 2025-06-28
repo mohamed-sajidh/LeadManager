@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(seconds: 1),
       () {
         accessProvider.checkingIsLoggedIn
-            ? Navigator.pushReplacementNamed(context, AppRoutes.home)
+            ? Navigator.pushReplacementNamed(context, AppRoutes.bottom)
             : Navigator.pushNamed(context, AppRoutes.login);
       },
     );

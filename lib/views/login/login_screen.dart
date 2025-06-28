@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lead_manager/core/utils/app_assets.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:lead_manager/view_models/login_view_model.dart';
 import 'package:lead_manager/views/login/widgets/icon_widget.dart';
 import 'package:lead_manager/views/login/widgets/login_button_widget.dart';
 import 'package:lead_manager/views/login/widgets/text_widget.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -34,6 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
+    final loginProvider = Provider.of<LoginViewModel>(context);
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SingleChildScrollView(
@@ -168,9 +171,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 LoginButtonWidget(
                   text: "Login",
                   onPressed: () {
-                    print("hiajijdif");
+                    loginProvider.userLogin(
+                      emailIdTextcontroller.text,
+                      passwordTextcontroller.text,
+                      context,
+                    );
                   },
-                  loading: false,
+                  loading: loginProvider.isLoading,
                   formKey: formKey,
                 ),
                 const SizedBox(height: 30),

@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+import 'package:lead_manager/repositories/user_repository.dart';
+
+class LoginViewModel extends ChangeNotifier {
+  bool isLoading = false;
+  final _userRepository = UserRepository();
+
+  Future<void> userLogin(
+    String emailId,
+    String password,
+    BuildContext context,
+  ) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      String? response = await _userRepository.loginUser(emailId, password);
+      
+
+      if (response == null) {
+        print("api is success");
+      } else {
+        print("oh!! its failed");
+      }
+    } catch (e) {
+      print("error:- $e");
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+}

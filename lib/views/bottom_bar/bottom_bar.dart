@@ -12,110 +12,136 @@ class BottomBar extends StatefulWidget {
   State<BottomBar> createState() => _BottomBarState();
 }
 
-class _BottomBarState extends State<BottomBar> {
-  late int _selectedIndex;
+class _BottomBarState extends State<BottomBar> with TickerProviderStateMixin {
+  int _selectedIndex = 0;
+  late PageController _pageController;
+
+  final List<Widget> _pages = const [
+    HomePage(),
+    LeadPage(),
+    InterviewPage(),
+    ProfilePage(),
+  ];
+
+  late AnimationController _bounceController;
 
   @override
   void initState() {
     super.initState();
-    _selectedIndex = 0;
+    _pageController = PageController();
+    _bounceController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+      lowerBound: 0.0,
+      upperBound: 0.2,
+    );
   }
 
-  static final List<Widget> _widgetOptions = <Widget>[
-    const HomePage(),
-    const LeadPage(),
-    const InterviewPage(),
-    const ProfilePage(),
-  ];
+  @override
+  void dispose() {
+    _pageController.dispose();
+    _bounceController.dispose();
+    super.dispose();
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    _pageController.animateToPage(index,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+
+    _bounceController.forward().then((_) => _bounceController.reverse());
+  }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        if (_selectedIndex != 0) {
-          setState(() {
-            _selectedIndex = 0;
-          });
-          return false;
-        }
-        return true;
-      },
-      child: Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              flex: 7,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                transitionBuilder: (child, animation) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
-                child: _widgetOptions[_selectedIndex],
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: BottomNavigationBar(
-                  unselectedItemColor: AppColors.grey,
-                  selectedFontSize: 12,
-                  unselectedFontSize: 12,
-                  items: List.generate(4, (index) {
-                    final iconData = [
-                      Icons.home,
-                      Icons.production_quantity_limits,
-                      Icons.settings,
-                      Icons.person
-                    ][index];
-                    final label = ['Home', 'Leads', 'Interview', 'Profile'][index];
+    return Scaffold(
+      backgroundColor: AppColors.secondaryColor,
+      body: Stack(
+        children: [
+          PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() => _selectedIndex = index);
+            },
+            children: _pages,
+          ),
 
-                    final isSelected = _selectedIndex == index;
-
-                    return BottomNavigationBarItem(
-                      icon: AnimatedContainer(
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: isSelected ? AppColors.primaryColor.withOpacity(0.1) : Colors.transparent,
-                          shape: BoxShape.circle,
-                        ),
-                        child: AnimatedScale(
-                          scale: isSelected ? 1.2 : 1.0,
-                          duration: const Duration(milliseconds: 200),
-                          child: ColorFiltered(
-                            colorFilter: ColorFilter.mode(
-                              isSelected ? AppColors.primaryColor : AppColors.grey,
-                              BlendMode.srcIn,
-                            ),
-                            child: Icon(iconData, size: 30),
-                          ),
-                        ),
+          /// Custom Bottom Navigation Bar
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              height: 70,
+              child: Stack(
+                children: [
+                  /// Curved Background
+                  Center(
+                    child: Container(
+                      height: 60,
+                      margin: const EdgeInsets.symmetric(horizontal: 24),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(40),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          )
+                        ],
                       ),
-                      label: label,
-                    );
-                  }),
-                  selectedLabelStyle: const TextStyle(
-                    decoration: TextDecoration.none,
-                    fontWeight: FontWeight.bold,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: List.generate(4, (index) {
+                          final icons = [
+                            Icons.home,
+                            Icons.assignment,
+                            Icons.calendar_today,
+                            Icons.person,
+                          ];
+                          final isSelected = _selectedIndex == index;
+
+                          return GestureDetector(
+                            onTap: () => _onItemTapped(index),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeOutQuad,
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? AppColors.primaryColor.withOpacity(0.1)
+                                    : Colors.transparent,
+                                shape: BoxShape.circle,
+                              ),
+                              child: ScaleTransition(
+                                scale: isSelected
+                                    ? Tween(begin: 1.0, end: 1.3)
+                                        .animate(CurvedAnimation(
+                                        parent: _bounceController,
+                                        curve: Curves.easeOutBack,
+                                      ))
+                                    : const AlwaysStoppedAnimation(1.0),
+                                child: Icon(
+                                  icons[index],
+                                  color: isSelected
+                                      ? AppColors.primaryColor
+                                      : AppColors.grey,
+                                  size: 28,
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
                   ),
-                  type: BottomNavigationBarType.fixed,
-                  currentIndex: _selectedIndex,
-                  selectedItemColor: AppColors.primaryColor,
-                  backgroundColor: AppColors.white,
-                  onTap: (int index) {
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                  },
-                  elevation: 5,
-                ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:lead_manager/view_models/profile_view_model.dart';
 import 'package:lead_manager/views/home/widgets/single_card.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -71,15 +73,15 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                /// Top row: Greeting + Notification + Avatar
-                const Row(
+                const SizedBox(height: 10),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     /// Greeting section
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        const Text(
                           "Hello 👋",
                           style: TextStyle(
                             color: AppColors.white,
@@ -87,35 +89,43 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        SizedBox(height: 4),
-                        Text(
-                          "Sajidh Shaji",
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        const SizedBox(height: 4),
+                        Consumer<ProfileViewModel>(
+                          builder: (context, provider, child) {
+                            return Text(
+                              provider.profileItem!.firstName,
+                              style: const TextStyle(
+                                color: AppColors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
 
                     /// Notification + Avatar
-                    Row(
+                    const Row(
                       children: [
-                        Icon(Icons.notifications_none,
-                            color: Colors.white, size: 28),
+                        Icon(
+                          Icons.notifications_none,
+                          color: AppColors.white,
+                          size: 28,
+                        ),
                         SizedBox(width: 12),
                         CircleAvatar(
                           radius: 20,
-                          backgroundColor: Colors.white,
-                          child:
-                              Icon(Icons.person, color: AppColors.primaryColor),
+                          backgroundColor: AppColors.white,
+                          child: Icon(
+                            Icons.person,
+                            color: AppColors.primaryColor,
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 12),
                 Container(
                   width: double.infinity,

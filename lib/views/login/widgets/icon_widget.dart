@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/utils/app_assets.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 
 class IconWidget extends StatelessWidget {

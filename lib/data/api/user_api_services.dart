@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lead_manager/core/constants/api_constants.dart';
 import 'package:lead_manager/data/local/token_storage.dart';
 import 'package:lead_manager/view_models/access_view_model.dart';
+import 'package:lead_manager/view_models/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class UserApiServices {
@@ -23,7 +24,10 @@ class UserApiServices {
           if (context.mounted) {
             final accessProvider =
                 Provider.of<AccessViewModel>(context, listen: false);
+            final profileProvider =
+                Provider.of<ProfileViewModel>(context, listen: false);
             accessProvider.isLogin();
+            profileProvider.getUserProfile();
           }
         }
 

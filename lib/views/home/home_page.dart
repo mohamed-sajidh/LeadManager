@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:lead_manager/routes/app_routes.dart';
 import 'package:lead_manager/view_models/profile_view_model.dart';
 import 'package:lead_manager/views/home/widgets/single_card.dart';
 import 'package:provider/provider.dart';
@@ -112,20 +113,25 @@ class _HomePageState extends State<HomePage> {
                     ),
 
                     /// Notification + Avatar
-                    const Row(
+                    Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.notifications_none,
                           color: AppColors.white,
                           size: 28,
                         ),
-                        SizedBox(width: 12),
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundColor: AppColors.white,
-                          child: Icon(
-                            Icons.person,
-                            color: AppColors.primaryColor,
+                        const SizedBox(width: 12),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, AppRoutes.editProfile);
+                          },
+                          child: const CircleAvatar(
+                            radius: 20,
+                            backgroundColor: AppColors.white,
+                            child: Icon(
+                              Icons.person,
+                              color: AppColors.primaryColor,
+                            ),
                           ),
                         ),
                       ],

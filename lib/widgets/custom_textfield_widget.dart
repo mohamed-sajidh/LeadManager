@@ -18,6 +18,7 @@ class CustomTextfieldWidget extends StatelessWidget {
       height: 48,
       child: TextFormField(
         controller: textfield,
+        readOnly: true,
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'Required';

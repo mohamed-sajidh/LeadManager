@@ -66,7 +66,7 @@ class _EditProfileState extends State<EditProfile> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text(
-          "Edit Profile",
+          "Personal Details",
           style: TextStyle(
             color: AppColors.white,
             fontSize: 18,
@@ -224,10 +224,6 @@ class _EditProfileState extends State<EditProfile> {
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: UpdateButton(),
       ),
     );
   }

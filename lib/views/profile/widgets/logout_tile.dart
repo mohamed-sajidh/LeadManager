@@ -29,7 +29,7 @@ class LogoutTile extends StatelessWidget {
           ],
         ),
         child: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18),
+          padding: EdgeInsets.symmetric(horizontal: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -47,7 +47,7 @@ class LogoutTile extends StatelessWidget {
                   ),
                 ],
               ),
-              Icon(Icons.chevron_right, color: Colors.grey),
+              Icon(Icons.chevron_right, color: AppColors.grey),
             ],
           ),
         ),

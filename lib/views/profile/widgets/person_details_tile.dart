@@ -45,7 +45,7 @@ class PersonDetailsTile extends StatelessWidget {
           }
 
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               children: [
                 Container(
@@ -60,7 +60,7 @@ class PersonDetailsTile extends StatelessWidget {
                 const SizedBox(width: 10),
                 SizedBox(
                   height: double.infinity,
-                  width: 200,
+                  width: 250,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -90,8 +90,11 @@ class PersonDetailsTile extends StatelessWidget {
                       const SizedBox(height: 1),
                       Row(
                         children: [
-                          const Icon(Icons.email,
-                              size: 16, color: AppColors.grey),
+                          const Icon(
+                            Icons.email,
+                            size: 16,
+                            color: AppColors.grey,
+                          ),
                           const SizedBox(width: 6),
                           Expanded(
                             child: Text(
@@ -108,33 +111,12 @@ class PersonDetailsTile extends StatelessWidget {
                     ],
                   ),
                 ),
+                const Spacer(),
                 GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, AppRoutes.editProfile);
                   },
-                  child: const SizedBox(
-                    height: 30,
-                    width: 100,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "Edit Profile",
-                          style: TextStyle(
-                            color: AppColors.primaryColor,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        SizedBox(width: 2),
-                        Icon(
-                          Icons.chevron_right_outlined,
-                          color: AppColors.primaryColor,
-                          size: 18,
-                        ),
-                      ],
-                    ),
-                  ),
+                  child: const Icon(Icons.chevron_right, color: AppColors.grey),
                 ),
               ],
             ),

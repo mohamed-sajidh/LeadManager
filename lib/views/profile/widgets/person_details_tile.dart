@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lead_manager/core/utils/app_assets.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:lead_manager/routes/app_routes.dart';
 
 class PersonDetailsTile extends StatelessWidget {
   const PersonDetailsTile({super.key});
@@ -81,27 +82,32 @@ class PersonDetailsTile extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 30,
-              width: 100,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Edit Profile",
-                    style: TextStyle(
-                      color: AppColors.primaryColor,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, AppRoutes.editProfile);
+              },
+              child: const SizedBox(
+                height: 30,
+                width: 100,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Edit Profile",
+                      style: TextStyle(
+                        color: AppColors.primaryColor,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 2),
-                  Icon(
-                    Icons.chevron_right_outlined,
-                    color: AppColors.primaryColor,
-                    size: 18,
-                  ),
-                ],
+                    SizedBox(width: 2),
+                    Icon(
+                      Icons.chevron_right_outlined,
+                      color: AppColors.primaryColor,
+                      size: 18,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

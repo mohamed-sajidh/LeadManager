@@ -4,7 +4,7 @@ import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/view_models/login_view_model.dart';
 import 'package:lead_manager/views/login/widgets/icon_widget.dart';
 import 'package:lead_manager/views/login/widgets/login_button_widget.dart';
-import 'package:lead_manager/views/login/widgets/text_widget.dart';
+import 'package:lead_manager/widgets/custom_text_widget.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {

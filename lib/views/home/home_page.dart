@@ -92,8 +92,14 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(height: 4),
                         Consumer<ProfileViewModel>(
                           builder: (context, provider, child) {
+                            final profile = provider.profileItem;
+
+                            if (profile == null) {
+                              return const SizedBox();
+                            }
+
                             return Text(
-                              provider.profileItem!.firstName,
+                              profile.firstName,
                               style: const TextStyle(
                                 color: AppColors.white,
                                 fontSize: 22,

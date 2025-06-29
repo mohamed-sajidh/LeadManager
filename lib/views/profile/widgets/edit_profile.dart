@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lead_manager/core/utils/app_assets.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:lead_manager/view_models/profile_view_model.dart';
 import 'package:lead_manager/views/profile/widgets/update_button.dart';
 import 'package:lead_manager/widgets/custom_text_widget.dart';
 import 'package:lead_manager/widgets/custom_textfield_widget.dart';
+import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -17,18 +19,35 @@ class _EditProfileState extends State<EditProfile> {
   late TextEditingController emailIdTextController;
   late TextEditingController mobileTextController;
   late TextEditingController whatsappTextController;
-  late bool isActive;
-  late String userRole;
+  bool isActive = true;
+  String userRole = "User";
 
   @override
   void initState() {
     super.initState();
+
+    final profileProvider =
+        Provider.of<ProfileViewModel>(context, listen: false);
+
+    // Optional: delay to ensure provider has loaded data if not already
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final profile = profileProvider.profileItem;
+
+      if (profile != null) {
+        nameTextController.text = profile.firstName;
+        emailIdTextController.text = profile.emailId;
+        mobileTextController.text = profile.phone;
+        whatsappTextController.text = profile.whatsappNumber;
+        isActive = profile.isActive;
+        userRole = profile.roleDetails?.label ?? 'User';
+        setState(() {});
+      }
+    });
+
     nameTextController = TextEditingController();
     emailIdTextController = TextEditingController();
     mobileTextController = TextEditingController();
     whatsappTextController = TextEditingController();
-    isActive = true;
-    userRole = "Admin";
   }
 
   @override

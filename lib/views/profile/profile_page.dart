@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:lead_manager/views/profile/widgets/logout_tile.dart';
 import 'package:lead_manager/views/profile/widgets/person_details_tile.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -21,28 +22,11 @@ class ProfilePage extends StatelessWidget {
         ),
         backgroundColor: AppColors.primaryColor,
       ),
-      body: Column(
+      body: const Column(
         children: [
-          const PersonDetailsTile(),
-          const SizedBox(height: 10),
-          Container(
-            height: 100,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              border: Border.all(
-                color: AppColors.black.withOpacity(0.1),
-                width: 1.2,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.black.withOpacity(0.05),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-          ),
+          PersonDetailsTile(),
+          SizedBox(height: 10),
+          LogoutTile(),
         ],
       ),
     );

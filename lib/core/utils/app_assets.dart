@@ -3,4 +3,5 @@ class AppAssets {
   static const String googleIcon = "assets/google_icon.png";
   static const String backIcon = "assets/arrow_back_icon.png";
   static const String profilePic = "assets/profile_pic.png";
+  static const String logo = "assets/logo.png";
 }

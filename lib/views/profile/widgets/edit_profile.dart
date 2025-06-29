@@ -65,6 +65,7 @@ class _EditProfileState extends State<EditProfile> {
       backgroundColor: AppColors.secondaryColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        toolbarHeight: 70,
         title: const Text(
           "Personal Details",
           style: TextStyle(

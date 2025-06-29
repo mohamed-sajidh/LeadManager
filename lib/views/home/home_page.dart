@@ -61,11 +61,13 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: AppColors.secondaryColor,
         elevation: 0,
         flexibleSpace: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(12),
           child: Container(
             decoration: const BoxDecoration(
               color: AppColors.primaryColor,
               borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(32),
+                topRight: Radius.circular(32),
                 bottomLeft: Radius.circular(32),
                 bottomRight: Radius.circular(32),
               ),

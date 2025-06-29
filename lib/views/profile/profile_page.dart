@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/views/profile/widgets/logout_tile.dart';
 import 'package:lead_manager/views/profile/widgets/person_details_tile.dart';
+import 'package:lead_manager/views/profile/widgets/version_tile.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -12,6 +13,7 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: AppColors.secondaryColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        toolbarHeight: 70,
         title: const Text(
           "Profile Page",
           style: TextStyle(
@@ -27,6 +29,8 @@ class ProfilePage extends StatelessWidget {
           PersonDetailsTile(),
           SizedBox(height: 10),
           LogoutTile(),
+          SizedBox(height: 10),
+          VersionTile(),
         ],
       ),
     );

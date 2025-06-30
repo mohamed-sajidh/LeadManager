@@ -10,4 +10,9 @@ class AppColors {
   static const purple = Colors.purple;
   static const green = Colors.green;
   static const red = Colors.red;
+  static const leadIconColor = 0xFFe0f2f1;
+  static const softBlue = 0xFFE8F0FE;
+  static const deepIndogo = 0xFF1A237E;
+  static const deepBrown = 0xFF4E342E;
+  static const softCream = 0xFFFFF8E1;
 }

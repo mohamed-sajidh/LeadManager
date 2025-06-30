@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/models/lead_model.dart';
+import 'package:lead_manager/routes/app_routes.dart';
 
 class SingleLeadCard extends StatefulWidget {
   final LeadModel lead;
@@ -18,7 +19,7 @@ class _SingleLeadCardState extends State<SingleLeadCard> {
 
     return GestureDetector(
       onTap: () {
-        print("button tapped");
+        Navigator.pushNamed(context, AppRoutes.leadDetail);
       },
       child: Container(
         width: double.infinity,
@@ -44,7 +45,7 @@ class _SingleLeadCardState extends State<SingleLeadCard> {
               children: [
                 CircleAvatar(
                   radius: 26,
-                  backgroundColor: const Color(0xFFe0f2f1),
+                  backgroundColor: const Color(AppColors.leadIconColor),
                   child: Text(
                     initials,
                     style: const TextStyle(
@@ -70,14 +71,14 @@ class _SingleLeadCardState extends State<SingleLeadCard> {
                       Row(
                         children: [
                           const Icon(Icons.access_time_rounded,
-                              size: 16, color: Colors.grey),
+                              size: 16, color: AppColors.grey),
                           const SizedBox(width: 5),
                           Text(
                             DateFormat('MMMM d, y - h:mm a')
                                 .format(widget.lead.createdAt),
                             style: const TextStyle(
                               fontSize: 13,
-                              color: Colors.grey,
+                              color: AppColors.grey,
                             ),
                           ),
                         ],

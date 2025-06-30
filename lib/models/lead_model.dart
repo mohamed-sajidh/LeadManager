@@ -11,6 +11,7 @@ class LeadModel {
   final String parentName;
   final String leadSource;
   final DateTime createdAt;
+  final String address;
   final LeadSourceDetails leadSourceDetails;
   final LeadStatusDetails leadStatusDetails;
   final CounselorDetails counselorDetails;
@@ -28,6 +29,7 @@ class LeadModel {
     required this.parentName,
     required this.leadSource,
     required this.createdAt,
+    required this.address,
     required this.leadSourceDetails,
     required this.leadStatusDetails,
     required this.counselorDetails,
@@ -49,6 +51,7 @@ class LeadModel {
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'])
           : DateTime.now(),
+      address: json['address'] ?? '',
       leadSourceDetails: json['lead_source_details'] != null
           ? LeadSourceDetails.fromJson(json['lead_source_details'])
           : LeadSourceDetails.empty(),
@@ -75,6 +78,7 @@ class LeadModel {
       'parent_name': parentName,
       'lead_source': leadSource,
       'created_at': createdAt,
+      'address': address,
       'lead_source_details': leadSourceDetails.toJson(),
       'lead_status_details': leadStatusDetails.toJson(),
       'counselor_details': counselorDetails.toJson(),

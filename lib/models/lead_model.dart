@@ -92,6 +92,63 @@ class LeadModel {
     required this.course,
     required this.courseMode,
   });
+
+  factory LeadModel.fromJson(Map<String, dynamic> json) {
+    return LeadModel(
+      id: json['id'],
+      leadStatusDetails:
+          LeadStatusDetails.fromJson(json['lead_status_details']),
+      leadSourceDetails:
+          LeadSourceDetails.fromJson(json['lead_source_details']),
+      usedFacebookFormDetails:
+          UsedFacebookFormDetails.fromJson(json['used_facebook_form_details']),
+      counselorDetails:
+          CounselorDetailsElement.fromJson(json['counselor_details']),
+      websiteFormDetails:
+          WebsiteFormDetails.fromJson(json['website_form_details']),
+      qualificationDetails: json['qualification_details'],
+      preferredLocationDetails: json['preferred_location_details'],
+      courseDetails: json['course_details'],
+      courseModeDetails: json['course_mode_details'],
+      followupCount: json['followup_count'],
+      pendingFollowups: json['pending_followups'],
+      completedFollowups: json['completed_followups'],
+      lastFollowup: json['last_followup'],
+      nextFollowup: json['next_followup'],
+      name: json['name'],
+      phoneNumber: json['phone_number'],
+      whatsappNumber: json['whatsapp_number'],
+      email: json['email'],
+      city: json['city'],
+      reminderDate: json['reminder_date'],
+      isArchived: json['is_archived'],
+      parentName: json['parent_name'],
+      parentPhoneNumber: json['parent_phone_number'],
+      leadgenId: json['leadgen_id'],
+      passOutYear: json['pass_out_year'],
+      college: College.values.firstWhere((e) => e.name == json['college'],
+          orElse: () => College.EMPTY),
+      address: Address.values.firstWhere((e) => e.name == json['address'],
+          orElse: () => Address.EMPTY),
+      howDidYouHearAboutLuminar: json['how_did_you_hear_about_luminar'],
+      facebookCampaign: json['facebook_campaign'],
+      createdAt: DateTime.parse(json['created_at']),
+      isEditable: json['is_editable'],
+      isDeletable: json['is_deletable'],
+      isDeleted: json['is_deleted'],
+      isActive: json['is_active'],
+      isResubmission: json['is_resubmission'],
+      leadStatus: json['lead_status'],
+      leadSource: json['lead_source'],
+      usedFacebookForm: json['used_facebook_form'],
+      counselor: json['counselor'],
+      websiteForm: json['website_form'],
+      qualification: json['qualification'],
+      preferredLocation: json['preferred_location'],
+      course: json['course'],
+      courseMode: json['course_mode'],
+    );
+  }
 }
 
 enum Address {
@@ -130,6 +187,24 @@ class CounselorDetailsElement {
     required this.isStaff,
     required this.isSuperuser,
   });
+
+  factory CounselorDetailsElement.fromJson(Map<String, dynamic> json) {
+    return CounselorDetailsElement(
+      id: json['id'],
+      uid: json['uid'],
+      fullName: FullName.values.firstWhere((e) => e.name == json['fullName']),
+      email: Email.values.firstWhere((e) => e.name == json['email']),
+      phone: json['phone'],
+      whatsappNumber: WhatsappNumber.values
+          .firstWhere((e) => e.name == json['whatsappNumber']),
+      isActive: json['isActive'],
+      createdAt: DateTime.parse(json['createdAt']),
+      roleDetails: RoleDetails.fromJson(json['roleDetails']),
+      profilePic: json['profilePic'],
+      isStaff: json['isStaff'],
+      isSuperuser: json['isSuperuser'],
+    );
+  }
 }
 
 enum Email {
@@ -152,6 +227,14 @@ class RoleDetails {
     required this.label,
     required this.value,
   });
+
+  factory RoleDetails.fromJson(Map<String, dynamic> json) {
+    return RoleDetails(
+      id: json['id'],
+      label: RoleDetailsLabel.values.firstWhere((e) => e.name == json['label']),
+      value: RoleDetailsValue.values.firstWhere((e) => e.name == json['value']),
+    );
+  }
 }
 
 enum RoleDetailsLabel { ADMISSION_COUNSELLOR, SUPER_ADMIN, TEAM_LEAD }
@@ -180,6 +263,23 @@ class LeadSourceDetails {
     required this.label,
     required this.value,
   });
+
+  factory LeadSourceDetails.fromJson(Map<String, dynamic> json) {
+    return LeadSourceDetails(
+      id: json['id'],
+      createdAt: DateTime.parse(json['created_at']),
+      isEditable: json['is_editable'],
+      isDeletable: json['is_deletable'],
+      isDeleted: json['is_deleted'],
+      isActive: json['is_active'],
+      label: LeadSourceDetailsLabel.values.firstWhere(
+          (e) => e.name == json['label'],
+          orElse: () => LeadSourceDetailsLabel.FACEBOOK),
+      value: LeadSourceDetailsValue.values.firstWhere(
+          (e) => e.name == json['value'],
+          orElse: () => LeadSourceDetailsValue.FACEBOOK),
+    );
+  }
 }
 
 enum LeadSourceDetailsLabel { FACEBOOK, WEBSITE }
@@ -202,6 +302,21 @@ class LeadStatusDetails {
     required this.isActive,
     required this.provideLink,
   });
+
+  factory LeadStatusDetails.fromJson(Map<String, dynamic> json) {
+    return LeadStatusDetails(
+      id: json['id'],
+      name: Name.values.firstWhere((e) => e.name == json['name'],
+          orElse: () => Name.NEW_LEAD),
+      value: LeadStatusDetailsValue.values.firstWhere(
+          (e) => e.name == json['value'],
+          orElse: () => LeadStatusDetailsValue.NEW_LEAD),
+      color: Color.values.firstWhere((e) => e.name == json['color'],
+          orElse: () => Color.THE_0_AE67_F),
+      isActive: json['is_active'],
+      provideLink: json['provide_link'],
+    );
+  }
 }
 
 enum Color { THE_0_AE67_F }
@@ -240,6 +355,29 @@ class UsedFacebookFormDetails {
     required this.counselors,
     required this.lastAssignedCounselor,
   });
+
+  factory UsedFacebookFormDetails.fromJson(Map<String, dynamic> json) {
+    return UsedFacebookFormDetails(
+      id: json['id'],
+      name: json['name'],
+      pageId: json['pageId'],
+      formId: json['formId'],
+      status: json['status'],
+      createdAt: DateTime.parse(json['createdAt']),
+      isEditable: json['isEditable'],
+      isDeletable: json['isDeletable'],
+      isDeleted: json['isDeleted'],
+      isActive: json['isActive'],
+      formFields: (json['formFields'] as List)
+          .map((e) => FormField.fromJson(e))
+          .toList(),
+      counselors: (json['counselors'] as List)
+          .map((e) => LastAssignedCounselorElement.fromJson(e))
+          .toList(),
+      lastAssignedCounselor:
+          LastAssignedCounselorElement.fromJson(json['lastAssignedCounselor']),
+    );
+  }
 }
 
 class LastAssignedCounselorElement {
@@ -254,6 +392,15 @@ class LastAssignedCounselorElement {
     required this.email,
     required this.uid,
   });
+
+  factory LastAssignedCounselorElement.fromJson(Map<String, dynamic> json) {
+    return LastAssignedCounselorElement(
+      id: json['id'],
+      fullName: json['fullName'],
+      email: json['email'],
+      uid: json['uid'],
+    );
+  }
 }
 
 class FormField {
@@ -284,6 +431,24 @@ class FormField {
     required this.isDeleted,
     required this.isActive,
   });
+
+  factory FormField.fromJson(Map<String, dynamic> json) {
+    return FormField(
+      id: json['id'],
+      facebookFormId: json['facebookFormId'],
+      facebookFormName: FacebookFormName.values
+          .firstWhere((e) => e.name == json['facebookFormName']),
+      formFieldLabel: json['formFieldLabel'],
+      formFieldKey: json['formFieldKey'],
+      formFieldType: json['formFieldType'],
+      leadFieldMapping: json['leadFieldMapping'],
+      createdAt: DateTime.parse(json['createdAt']),
+      isEditable: json['isEditable'],
+      isDeletable: json['isDeletable'],
+      isDeleted: json['isDeleted'],
+      isActive: json['isActive'],
+    );
+  }
 }
 
 enum FacebookFormName { AI_LEADS_FORM_COCHIN }
@@ -312,6 +477,23 @@ class WebsiteFormDetails {
     required this.tracker,
     required this.counselors,
   });
+
+  factory WebsiteFormDetails.fromJson(Map<String, dynamic> json) {
+    return WebsiteFormDetails(
+      id: json['id'],
+      name: json['name'],
+      formKey: json['formKey'],
+      pageUrl: json['pageUrl'],
+      description: json['description'],
+      isActive: json['isActive'],
+      createdAt: DateTime.parse(json['createdAt']),
+      updatedAt: DateTime.parse(json['updatedAt']),
+      tracker: Tracker.fromJson(json['tracker']),
+      counselors: (json['counselors'] as List)
+          .map((e) => CounselorDetailsElement.fromJson(e))
+          .toList(),
+    );
+  }
 }
 
 class Tracker {
@@ -332,4 +514,16 @@ class Tracker {
     required this.updatedAt,
     required this.createdAt,
   });
+
+  factory Tracker.fromJson(Map<String, dynamic> json) {
+    return Tracker(
+      id: json['id'],
+      formName: json['formName'],
+      pageUrl: json['pageUrl'],
+      lastLeadTime: DateTime.parse(json['lastLeadTime']),
+      leadCount: json['leadCount'],
+      updatedAt: DateTime.parse(json['updatedAt']),
+      createdAt: DateTime.parse(json['createdAt']),
+    );
+  }
 }

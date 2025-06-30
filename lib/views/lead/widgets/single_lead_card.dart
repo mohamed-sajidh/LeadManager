@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/models/lead_model.dart';
 
@@ -13,35 +14,135 @@ class SingleLeadCard extends StatefulWidget {
 class _SingleLeadCardState extends State<SingleLeadCard> {
   @override
   Widget build(BuildContext context) {
-    // final leadProvider = Provider.of<LeadViewModel>(context);
+    final initials = _getInitials(widget.lead.name);
 
-    return Container(
-      height: 100,
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () {
+        print("button tapped");
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.15),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header with arrow
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  radius: 26,
+                  backgroundColor: const Color(0xFFe0f2f1),
+                  child: Text(
+                    initials,
+                    style: const TextStyle(
+                      color: AppColors.primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.lead.name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          const Icon(Icons.access_time_rounded,
+                              size: 16, color: Colors.grey),
+                          const SizedBox(width: 5),
+                          Text(
+                            DateFormat('MMMM d, y - h:mm a')
+                                .format(widget.lead.createdAt),
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(Icons.chevron_right, color: Colors.grey),
+              ],
+            ),
+
+            const SizedBox(height: 16),
+
+            // Email
+            _infoRow(
+              icon: Icons.email_outlined,
+              text: widget.lead.email.isNotEmpty
+                  ? widget.lead.email
+                  : 'No email found for this user',
+            ),
+
+            const SizedBox(height: 10),
+
+            // Phone
+            _infoRow(
+              icon: Icons.phone,
+              text: widget.lead.phoneNumber.isNotEmpty
+                  ? widget.lead.phoneNumber
+                  : 'No mobile number found for this user',
+            ),
+          ],
+        ),
       ),
-      child: Row(
-        children: [
-          // example child widgets
-          const Icon(Icons.person, color: AppColors.primaryColor),
-          const SizedBox(width: 12),
-          Text(
-            widget.lead.name,
-            style: const TextStyle(fontWeight: FontWeight.w600),
+    );
+  }
+
+  String _getInitials(String name) {
+    try {
+      final cleanName = name.replaceAll(RegExp(r'[^\x00-\x7F]'), '').trim();
+      final parts = cleanName.split(' ');
+
+      if (parts.isEmpty || parts[0].isEmpty) return "??";
+      if (parts.length == 1) return parts[0][0].toUpperCase();
+
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    } catch (e) {
+      return "??";
+    }
+  }
+
+  Widget _infoRow({required IconData icon, required String text}) {
+    return Row(
+      children: [
+        Icon(icon, size: 18, color: AppColors.primaryColor),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            text,
+            style: const TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

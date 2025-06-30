@@ -8,13 +8,13 @@ class LeadViewModel extends ChangeNotifier {
 
   Future<List<LeadModel>> getAllLeads(int page) async {
     try {
-      print("getAllLeads api called ========>");
+      print("page number:- $page");
       getLeadsLoader = true;
       notifyListeners();
 
       final leadRepo = LeadRepository();
       final leads = await leadRepo.getLeads(page);
-      profileItem = leads; 
+      profileItem = leads;
 
       return leads;
     } catch (e) {

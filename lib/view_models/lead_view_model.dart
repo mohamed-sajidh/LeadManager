@@ -4,7 +4,7 @@ import 'package:lead_manager/repositories/lead_repository.dart';
 
 class LeadViewModel extends ChangeNotifier {
   bool getLeadsLoader = false;
-  LeadModel? profileItem;
+  List<LeadModel> profileItem = [];
 
   Future<List<LeadModel>> getAllLeads(int page) async {
     try {
@@ -14,6 +14,7 @@ class LeadViewModel extends ChangeNotifier {
 
       final leadRepo = LeadRepository();
       final leads = await leadRepo.getLeads(page);
+      profileItem = leads; 
 
       return leads;
     } catch (e) {

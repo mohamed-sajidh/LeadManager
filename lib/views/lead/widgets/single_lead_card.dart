@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:lead_manager/models/lead_model.dart';
 
 class SingleLeadCard extends StatefulWidget {
-  const SingleLeadCard({super.key});
+  final LeadModel lead;
+  const SingleLeadCard({super.key, required this.lead});
 
   @override
   State<SingleLeadCard> createState() => _SingleLeadCardState();
@@ -11,6 +13,8 @@ class SingleLeadCard extends StatefulWidget {
 class _SingleLeadCardState extends State<SingleLeadCard> {
   @override
   Widget build(BuildContext context) {
+    // final leadProvider = Provider.of<LeadViewModel>(context);
+
     return Container(
       height: 100,
       width: double.infinity,
@@ -27,12 +31,15 @@ class _SingleLeadCardState extends State<SingleLeadCard> {
           ),
         ],
       ),
-      child: const Row(
+      child: Row(
         children: [
           // example child widgets
-          Icon(Icons.person, color: AppColors.primaryColor),
-          SizedBox(width: 12),
-          Text("Lead Name", style: TextStyle(fontWeight: FontWeight.w600)),
+          const Icon(Icons.person, color: AppColors.primaryColor),
+          const SizedBox(width: 12),
+          Text(
+            widget.lead.name,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
         ],
       ),
     );

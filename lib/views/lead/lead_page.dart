@@ -54,7 +54,7 @@ class _LeadPageState extends State<LeadPage> {
         backgroundColor: AppColors.primaryColor,
         actions: [
           IconButton(
-            icon: const Icon(Icons.search, color: Colors.white),
+            icon: const Icon(Icons.search, color: AppColors.white),
             onPressed: () {
               showSearch(
                 context: context,
@@ -71,9 +71,9 @@ class _LeadPageState extends State<LeadPage> {
           state: state,
           fetchNextPage: fetchNextPage,
           builderDelegate: PagedChildBuilderDelegate(
-            itemBuilder: (context, item, index) => const SingleLeadCard(),
+            itemBuilder: (context, item, index) => SingleLeadCard(lead: item),
           ),
-          separatorBuilder: (context, index) => const Divider(),
+          separatorBuilder: (context, index) => const SizedBox(height: 10),
         ),
       ),
     );

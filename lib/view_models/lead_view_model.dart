@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lead_manager/models/lead_details_model.dart';
 import 'package:lead_manager/models/lead_model.dart';
 import 'package:lead_manager/repositories/lead_repository.dart';
 
 class LeadViewModel extends ChangeNotifier {
   bool getLeadsLoader = false;
-  List<LeadModel> profileItem = [];
+  bool getLeadsByIdLoader = false;
+  List<LeadModel> leadItem = [];
+  LeadDetailsModel? singleLeadItem;
 
   Future<List<LeadModel>> getAllLeads(int page) async {
     try {
@@ -14,7 +17,7 @@ class LeadViewModel extends ChangeNotifier {
 
       final leadRepo = LeadRepository();
       final leads = await leadRepo.getLeads(page);
-      profileItem = leads;
+      leadItem = leads;
 
       return leads;
     } catch (e) {
@@ -22,6 +25,21 @@ class LeadViewModel extends ChangeNotifier {
       rethrow;
     } finally {
       getLeadsLoader = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getLeadById(String userId) async {
+    try {
+      getLeadsByIdLoader = true;
+      notifyListeners();
+
+      final profileRepo = LeadRepository();
+      singleLeadItem = await profileRepo.getLeadById(userId);
+    } catch (e) {
+      print("Error Occured while fetching the profile: $e");
+    } finally {
+      getLeadsByIdLoader = false;
       notifyListeners();
     }
   }

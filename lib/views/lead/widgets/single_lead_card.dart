@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/models/lead_model.dart';
 import 'package:lead_manager/routes/app_routes.dart';
+import 'package:lead_manager/view_models/lead_view_model.dart';
+import 'package:provider/provider.dart';
 
 class SingleLeadCard extends StatefulWidget {
   final LeadModel lead;
@@ -16,10 +18,12 @@ class _SingleLeadCardState extends State<SingleLeadCard> {
   @override
   Widget build(BuildContext context) {
     final initials = _getInitials(widget.lead.name);
+    final leadProvider = Provider.of<LeadViewModel>(context);
 
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.leadDetail);
+        leadProvider.getLeadById(widget.lead.id);
+        // Navigator.pushNamed(context, AppRoutes.leadDetail);
       },
       child: Container(
         width: double.infinity,

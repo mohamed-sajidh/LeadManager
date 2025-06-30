@@ -11,4 +11,6 @@ class ApiConstants {
 
   // Lead URL
   static String leadEndPoint = '$baseUrl/api/leads/';
+  static String leadByIdEndPoint(String userId) =>
+      '$baseUrl/api/leads/$userId/';
 }

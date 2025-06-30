@@ -44,8 +44,14 @@ void showLogoutDialog(BuildContext context) {
               ),
               TextButton(
                 onPressed: () async {
-                  accessProvider.isLogout();
-                  Navigator.pushReplacementNamed(context, AppRoutes.login);
+                  await accessProvider.isLogout();
+                  if (context.mounted) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      AppRoutes.login,
+                      (route) => false,
+                    );
+                  }
                 },
                 child: const Text(
                   "Logout",

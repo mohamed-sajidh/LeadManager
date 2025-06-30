@@ -4,6 +4,7 @@ import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/models/lead_model.dart';
 import 'package:lead_manager/routes/app_routes.dart';
 import 'package:lead_manager/view_models/lead_view_model.dart';
+import 'package:lead_manager/views/lead/widgets/build_widgets.dart';
 import 'package:provider/provider.dart';
 
 class SingleLeadCard extends StatefulWidget {
@@ -17,13 +18,15 @@ class SingleLeadCard extends StatefulWidget {
 class _SingleLeadCardState extends State<SingleLeadCard> {
   @override
   Widget build(BuildContext context) {
-    final initials = _getInitials(widget.lead.name);
+    final initials = getInitials(widget.lead.name);
     final leadProvider = Provider.of<LeadViewModel>(context);
 
     return GestureDetector(
-      onTap: () {
-        leadProvider.getLeadById(widget.lead.id);
-        // Navigator.pushNamed(context, AppRoutes.leadDetail);
+      onTap: () async {
+        await leadProvider.getLeadById(widget.lead.id);
+        if (context.mounted) {
+          Navigator.pushNamed(context, AppRoutes.leadDetail);
+        }
       },
       child: Container(
         width: double.infinity,
@@ -117,20 +120,6 @@ class _SingleLeadCardState extends State<SingleLeadCard> {
         ),
       ),
     );
-  }
-
-  String _getInitials(String name) {
-    try {
-      final cleanName = name.replaceAll(RegExp(r'[^\x00-\x7F]'), '').trim();
-      final parts = cleanName.split(' ');
-
-      if (parts.isEmpty || parts[0].isEmpty) return "??";
-      if (parts.length == 1) return parts[0][0].toUpperCase();
-
-      return (parts[0][0] + parts[1][0]).toUpperCase();
-    } catch (e) {
-      return "??";
-    }
   }
 
   Widget _infoRow({required IconData icon, required String text}) {

@@ -119,6 +119,20 @@ Widget iconWithLabel({
   );
 }
 
+String getInitials(String name) {
+    try {
+      final cleanName = name.replaceAll(RegExp(r'[^\x00-\x7F]'), '').trim();
+      final parts = cleanName.split(' ');
+
+      if (parts.isEmpty || parts[0].isEmpty) return "??";
+      if (parts.length == 1) return parts[0][0].toUpperCase();
+
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    } catch (e) {
+      return "??";
+    }
+  }
+
 
 
 

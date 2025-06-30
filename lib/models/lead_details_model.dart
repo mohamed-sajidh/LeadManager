@@ -15,6 +15,7 @@ class LeadDetailsModel {
   final LeadSourceDetails leadSourceDetails;
   final LeadStatusDetails leadStatusDetails;
   final CounselorDetails counselorDetails;
+  final WebsiteFormDetails websiteformDetails;
 
   LeadDetailsModel({
     required this.id,
@@ -33,6 +34,7 @@ class LeadDetailsModel {
     required this.leadSourceDetails,
     required this.leadStatusDetails,
     required this.counselorDetails,
+    required this.websiteformDetails,
   });
 
   factory LeadDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -61,6 +63,9 @@ class LeadDetailsModel {
       counselorDetails: json['counselor_details'] != null
           ? CounselorDetails.fromJson(json['counselor_details'])
           : CounselorDetails.empty(),
+      websiteformDetails: json['website_form_details'] != null
+          ? WebsiteFormDetails.fromJson(json['website_form_details'])
+          : WebsiteFormDetails.empty(),
     );
   }
 
@@ -82,6 +87,7 @@ class LeadDetailsModel {
       'lead_source_details': leadSourceDetails.toJson(),
       'lead_status_details': leadStatusDetails.toJson(),
       'counselor_details': counselorDetails.toJson(),
+      'website_form_details': websiteformDetails.toJson(),
     };
   }
 }
@@ -208,6 +214,7 @@ class CounselorDetails {
   final String phone;
   final String whatsappNumber;
   final bool isActive;
+  final RoleDetails roleDetails;
 
   CounselorDetails({
     required this.id,
@@ -217,6 +224,7 @@ class CounselorDetails {
     required this.phone,
     required this.whatsappNumber,
     required this.isActive,
+    required this.roleDetails,
   });
 
   factory CounselorDetails.fromJson(Map<String, dynamic> json) {
@@ -228,6 +236,9 @@ class CounselorDetails {
       phone: json['phone'] ?? '',
       whatsappNumber: json['whatsapp_number'] ?? '',
       isActive: json['is_active'] ?? false,
+      roleDetails: json['role_details'] != null
+          ? RoleDetails.fromJson(json['role_details'])
+          : RoleDetails.empty(),
     );
   }
 
@@ -240,6 +251,7 @@ class CounselorDetails {
       'phone': phone,
       'whatsapp_number': whatsappNumber,
       'is_active': isActive,
+      'role_details': roleDetails.toJson(),
     };
   }
 
@@ -252,6 +264,129 @@ class CounselorDetails {
       phone: '',
       whatsappNumber: '',
       isActive: false,
+      roleDetails: RoleDetails(id: 0, label: '', value: ''),
+    );
+  }
+}
+
+class RoleDetails {
+  final int id;
+  final String label;
+  final String value;
+
+  RoleDetails({
+    required this.id,
+    required this.label,
+    required this.value,
+  });
+
+  factory RoleDetails.fromJson(Map<String, dynamic> json) {
+    return RoleDetails(
+      id: json['id'] ?? 0,
+      label: json['label'] ?? '',
+      value: json['value'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'label': label,
+      'value': value,
+    };
+  }
+
+  factory RoleDetails.empty() {
+    return RoleDetails(
+      id: 0,
+      label: '',
+      value: '',
+    );
+  }
+}
+
+class WebsiteFormDetails {
+  final String id;
+  final String name;
+  final Tracker tracker;
+
+  WebsiteFormDetails({
+    required this.id,
+    required this.name,
+    required this.tracker,
+  });
+
+  factory WebsiteFormDetails.fromJson(Map<String, dynamic> json) {
+    return WebsiteFormDetails(
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      tracker: json['tracker'] != null
+          ? Tracker.fromJson(json['tracker'])
+          : Tracker.empty(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'tracker': tracker.toJson(),
+    };
+  }
+
+  factory WebsiteFormDetails.empty() {
+    return WebsiteFormDetails(
+      id: '',
+      name: '',
+      tracker: Tracker(
+        id: '',
+        formName: '',
+        leadCount: 0,
+        lastLeadTime: DateTime.now(),
+      ),
+    );
+  }
+}
+
+class Tracker {
+  final String id;
+  final String formName;
+  final int leadCount;
+  final DateTime lastLeadTime;
+
+  Tracker({
+    required this.id,
+    required this.formName,
+    required this.leadCount,
+    required this.lastLeadTime,
+  });
+
+  factory Tracker.fromJson(Map<String, dynamic> json) {
+    return Tracker(
+      id: json['id'] ?? '',
+      formName: json['form_name'] ?? '',
+      leadCount: json['lead_count'] ?? 0,
+      lastLeadTime: json['last_lead_time'] != null
+          ? DateTime.parse(json['last_lead_time'])
+          : DateTime.now(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'form_name': formName,
+      'lead_count': leadCount,
+      'last_lead_time': lastLeadTime,
+    };
+  }
+
+  factory Tracker.empty() {
+    return Tracker(
+      id: '',
+      formName: '',
+      leadCount: 0,
+      lastLeadTime: DateTime.now(),
     );
   }
 }

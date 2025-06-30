@@ -8,4 +8,7 @@ class ApiConstants {
 
   // Profile URL
   static String profileEndPoint = '$baseUrl/api/profile/';
+
+  // Lead URL
+  static String leadEndPoint = '$baseUrl/api/leads/';
 }

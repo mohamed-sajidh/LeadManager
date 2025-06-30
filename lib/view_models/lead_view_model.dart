@@ -6,15 +6,19 @@ class LeadViewModel extends ChangeNotifier {
   bool getLeadsLoader = false;
   LeadModel? profileItem;
 
-  Future<void> getAllLeads() async {
+  Future<List<LeadModel>> getAllLeads(int page) async {
     try {
+      print("getAllLeads api called ========>");
       getLeadsLoader = true;
       notifyListeners();
 
       final leadRepo = LeadRepository();
-      profileItem = await leadRepo.getLeads();
+      final leads = await leadRepo.getLeads(page);
+
+      return leads;
     } catch (e) {
-      print("Error Occured while fetching the Leads: $e");
+      print("Error Occurred while fetching the Leads: $e");
+      rethrow;
     } finally {
       getLeadsLoader = false;
       notifyListeners();

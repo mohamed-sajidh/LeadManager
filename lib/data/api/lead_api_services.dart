@@ -3,18 +3,17 @@ import 'package:lead_manager/core/constants/dio_client.dart';
 import 'package:lead_manager/models/lead_model.dart';
 
 class LeadApiServices {
-  Future<LeadModel> getLeads() async {
+  Future<List<LeadModel>> getLeads(int page) async {
     try {
       final dio = await DioClient().getAuthorizedDio();
 
-      final response = await dio.get(ApiConstants.leadEndPoint);
+      final response = await dio.get('${ApiConstants.leadEndPoint}?page=$page');
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonData = response.data;
-        Map<String, dynamic> leadJson = jsonData['results'];
+        final List<dynamic> leadJson = jsonData['results'];
 
-        LeadModel leads = LeadModel.fromJson(leadJson);
-        return leads;
+        return leadJson.map((item) => LeadModel.fromJson(item)).toList();
       } else {
         throw Exception('Failed to load Leads');
       }

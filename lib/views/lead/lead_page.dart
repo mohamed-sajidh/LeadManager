@@ -31,7 +31,8 @@ class _LeadPageState extends State<LeadPage> {
     _pagingController = PagingController<int, LeadModel>(
       getNextPageKey: (state) =>
           state.lastPageIsEmpty ? null : state.nextIntPageKey,
-      fetchPage: (pageKey) => leadProvider.getPaginatedFilteredLeads(pageKey),
+      fetchPage: (pageKey) =>
+          leadProvider.getPaginatedFilteredLeads(pageKey, context),
     );
   }
 
@@ -121,7 +122,9 @@ class _LeadPageState extends State<LeadPage> {
                             status: provider.selectedStatus,
                             source: provider.selectedSource,
                           );
-                          await provider.fetchAndSetFilteredLeads();
+                          if (context.mounted) {
+                            await provider.fetchAndSetFilteredLeads(context);
+                          }
                         }
                       },
                     ),
@@ -153,7 +156,9 @@ class _LeadPageState extends State<LeadPage> {
                             course: provider.selectedCourseId,
                             source: provider.selectedSource,
                           );
-                          await provider.fetchAndSetFilteredLeads();
+                          if (context.mounted) {
+                            await provider.fetchAndSetFilteredLeads(context);
+                          }
                         }
                       },
                     ),
@@ -185,7 +190,9 @@ class _LeadPageState extends State<LeadPage> {
                             course: provider.selectedCourseId,
                             source: selectedSource.sourceId,
                           );
-                          await provider.fetchAndSetFilteredLeads();
+                          if (context.mounted) {
+                            await provider.fetchAndSetFilteredLeads(context);
+                          }
                         }
                       },
                     ),

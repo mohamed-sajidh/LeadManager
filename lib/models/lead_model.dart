@@ -1,3 +1,22 @@
+class PaginatedLeadResponse {
+  final int count;
+  final List<LeadModel> results;
+
+  PaginatedLeadResponse({
+    required this.count,
+    required this.results,
+  });
+
+  factory PaginatedLeadResponse.fromJson(Map<String, dynamic> json) {
+    return PaginatedLeadResponse(
+      count: json['count'] ?? 0,
+      results: (json['results'] as List)
+          .map((item) => LeadModel.fromJson(item))
+          .toList(),
+    );
+  }
+}
+
 class LeadModel {
   final String id;
   final String name;

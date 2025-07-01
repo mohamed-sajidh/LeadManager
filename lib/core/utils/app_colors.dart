@@ -15,4 +15,5 @@ class AppColors {
   static const deepIndogo = 0xFF1A237E;
   static const deepBrown = 0xFF4E342E;
   static const softCream = 0xFFFFF8E1;
+  static const successSnackbarColor = Color.fromARGB(184, 16, 15, 15);
 }

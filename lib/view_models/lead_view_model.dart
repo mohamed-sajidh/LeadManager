@@ -5,6 +5,7 @@ import 'package:lead_manager/models/lead_model.dart';
 import 'package:lead_manager/models/lead_source_model.dart';
 import 'package:lead_manager/models/status_model.dart';
 import 'package:lead_manager/repositories/lead_repository.dart';
+import 'package:lead_manager/widgets/custom_snackbar.dart';
 
 class LeadViewModel extends ChangeNotifier {
   bool getLeadsLoader = false;
@@ -35,8 +36,9 @@ class LeadViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchAndSetFilteredLeads() async {
+  Future<void> fetchAndSetFilteredLeads(BuildContext context) async {
     final Map<String, String> queryParams = {};
+
     if (selectedCourseId != null) {
       queryParams['course'] = selectedCourseId.toString();
     }
@@ -52,12 +54,32 @@ class LeadViewModel extends ChangeNotifier {
 
     try {
       final repo = LeadRepository();
-      _filteredLeads = await repo.getPaginatedLeads(queryParams);
+      final response = await repo.getPaginatedLeads(queryParams);
+
+      _filteredLeads = response.results;
       notifyListeners();
+
+      if (isFiltering) {
+        if (_filteredLeads.isNotEmpty) {
+          if (context.mounted) {
+            showCustomSnackbar(context, "${response.count} leads found.");
+          }
+        } else {
+          if (context.mounted) {
+            showCustomSnackbar(context, "No leads found.");
+          }
+        }
+      }
     } catch (e) {
       print("Error fetching filtered leads: $e");
       _filteredLeads = [];
       notifyListeners();
+
+      if (isFiltering) {
+        if (context.mounted) {
+          showCustomSnackbar(context, "Failed to fetch leads.");
+        }
+      }
     }
   }
 
@@ -165,7 +187,8 @@ class LeadViewModel extends ChangeNotifier {
     }
   }
 
-  Future<List<LeadModel>> getPaginatedFilteredLeads(int page) async {
+  Future<List<LeadModel>> getPaginatedFilteredLeads(
+      int page, BuildContext context) async {
     try {
       final Map<String, String> queryParams = {};
 
@@ -194,8 +217,13 @@ class LeadViewModel extends ChangeNotifier {
       }
 
       final repo = LeadRepository();
-      final result = await repo.getPaginatedLeads(queryParams);
-      return result;
+      final response = await repo.getPaginatedLeads(queryParams);
+      if (page == 1) {
+        if (context.mounted) {
+          showCustomSnackbar(context, "${response.count} leads");
+        }
+      }
+      return response.results; // ✅ Extract leads list
     } catch (e) {
       print("Error in getPaginatedFilteredLeads: $e");
       return [];

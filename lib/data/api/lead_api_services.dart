@@ -88,7 +88,7 @@ class LeadApiServices {
     }
   }
 
-  Future<List<LeadModel>> getPaginatedLeads(
+  Future<PaginatedLeadResponse> getPaginatedLeads(
       Map<String, String> queryParams) async {
     try {
       print("params => $queryParams");
@@ -100,8 +100,7 @@ class LeadApiServices {
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonList = response.data['results'];
-        return jsonList.map((json) => LeadModel.fromJson(json)).toList();
+        return PaginatedLeadResponse.fromJson(response.data);
       } else {
         throw Exception("Failed to load leads");
       }

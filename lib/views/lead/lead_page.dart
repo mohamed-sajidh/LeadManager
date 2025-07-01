@@ -94,6 +94,7 @@ class _LeadPageState extends State<LeadPage> {
                     buildFilterButton(
                       label: "Select Course",
                       icon: Icons.filter_list,
+                      isSelected: provider.selectedCourseId != null,
                       onTap: () async {
                         await provider.getAllCourses();
                         if (provider.getCoursesLoader) {
@@ -115,6 +116,7 @@ class _LeadPageState extends State<LeadPage> {
                     ),
                     buildFilterButton(
                       label: "Lead Status",
+                      isSelected: provider.selectedStatus != null,
                       onTap: () async {
                         await provider.getAllStatus();
                         if (provider.getStatusLoader) {

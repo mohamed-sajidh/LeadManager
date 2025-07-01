@@ -136,14 +136,18 @@ Widget buildFilterButton({
   required String label,
   IconData? icon,
   VoidCallback? onTap,
+  bool isSelected = false, // new
 }) {
+  final Color bgColor = isSelected ? AppColors.primaryColor : Colors.white;
+  final Color contentColor = isSelected ? Colors.white : AppColors.primaryColor;
+
   return GestureDetector(
     onTap: onTap,
     child: Container(
       margin: const EdgeInsets.only(right: 10),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: bgColor,
         border: Border.all(color: AppColors.primaryColor, width: 1.2),
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
@@ -157,13 +161,13 @@ Widget buildFilterButton({
       child: Row(
         children: [
           if (icon != null) ...[
-            Icon(icon, size: 16, color: AppColors.primaryColor),
+            Icon(icon, size: 16, color: contentColor),
             const SizedBox(width: 6),
           ],
           Text(
             label,
-            style: const TextStyle(
-              color: AppColors.primaryColor,
+            style: TextStyle(
+              color: contentColor,
               fontSize: 13,
               fontWeight: FontWeight.w600,
             ),

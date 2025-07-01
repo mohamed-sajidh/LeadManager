@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lead_manager/models/course_model.dart';
 import 'package:lead_manager/view_models/lead_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 
-void showLeadCourseBottomSheet(BuildContext context) {
+Future<CourseModel?> showLeadCourseBottomSheet(BuildContext context) {
   final leadProvider = Provider.of<LeadViewModel>(context, listen: false);
 
-  showModalBottomSheet<void>(
+  return showModalBottomSheet<CourseModel>(
     context: context,
     isScrollControlled: true,
     backgroundColor: AppColors.secondaryColor,
@@ -31,9 +32,9 @@ void showLeadCourseBottomSheet(BuildContext context) {
                   color: AppColors.primaryColor,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children: const [
                     Text(
                       "Select Course",
                       style: TextStyle(
@@ -59,17 +60,12 @@ void showLeadCourseBottomSheet(BuildContext context) {
                     final course = leadProvider.coursesItem[index];
                     return InkWell(
                       onTap: () {
-                        leadProvider.fetchFilteredLeads(
-                          courseId: leadProvider.coursesItem[index].courseId,
-                        );
-                        Navigator.pop(context, course);
+                        Navigator.pop(context, course); // return course
                       },
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 14,
-                        ),
+                            horizontal: 12, vertical: 14),
                         decoration: BoxDecoration(
                           color: AppColors.white,
                           borderRadius: BorderRadius.circular(12),

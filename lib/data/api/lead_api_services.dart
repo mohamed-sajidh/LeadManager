@@ -85,4 +85,24 @@ class LeadApiServices {
       throw Exception('Error getting Leads: $e');
     }
   }
+
+  Future<List<LeadModel>> getPaginatedLeads(
+      Map<String, String> queryParams) async {
+    try {
+      print("params => $queryParams");
+      final dio = await DioClient().getAuthorizedDio();
+      final response = await dio.get(ApiConstants.leadEndPoint,
+          queryParameters: queryParams);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonList = response.data['results'];
+        return jsonList.map((json) => LeadModel.fromJson(json)).toList();
+      } else {
+        throw Exception("Failed to load leads");
+      }
+    } catch (e) {
+      print("Error in getPaginatedLeads: $e");
+      rethrow;
+    }
+  }
 }

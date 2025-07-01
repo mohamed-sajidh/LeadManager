@@ -13,6 +13,56 @@ class LeadViewModel extends ChangeNotifier {
   List<CourseModel> coursesItem = [];
   List<LeadModel> filteredLeadItem = [];
   LeadDetailsModel? singleLeadItem;
+  int? selectedCourseId;
+  String? searchQuery;
+  String? selectedStatus;
+  String? selectedSource;
+  List<LeadModel> _filteredLeads = [];
+  List<LeadModel> get filteredLeads => _filteredLeads;
+
+  void clearFilters() {
+    selectedCourseId = null;
+    searchQuery = null;
+    selectedStatus = null;
+    selectedSource = null;
+    _filteredLeads = [];
+    notifyListeners();
+  }
+
+  Future<void> fetchAndSetFilteredLeads() async {
+    final Map<String, String> queryParams = {};
+    if (selectedCourseId != null)
+      queryParams['course'] = selectedCourseId.toString();
+    if (searchQuery != null && searchQuery!.isNotEmpty)
+      queryParams['search'] = searchQuery!;
+    if (selectedStatus != null && selectedStatus!.isNotEmpty)
+      queryParams['status'] = selectedStatus!;
+    if (selectedSource != null && selectedSource!.isNotEmpty)
+      queryParams['source'] = selectedSource!;
+
+    try {
+      final repo = LeadRepository();
+      _filteredLeads = await repo.getPaginatedLeads(queryParams);
+      notifyListeners();
+    } catch (e) {
+      print("Error fetching filtered leads: $e");
+      _filteredLeads = [];
+      notifyListeners();
+    }
+  }
+
+  void updateFilters({
+    int? course,
+    String? search,
+    String? status,
+    String? source,
+  }) {
+    selectedCourseId = course;
+    searchQuery = search;
+    selectedStatus = status;
+    selectedSource = source;
+    notifyListeners();
+  }
 
   Future<List<LeadModel>> getAllLeads(int page) async {
     try {
@@ -104,4 +154,39 @@ class LeadViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<List<LeadModel>> getPaginatedFilteredLeads(int page) async {
+    try {
+      final Map<String, String> queryParams = {};
+
+      if (selectedCourseId != null) {
+        queryParams['course'] = selectedCourseId.toString();
+      }
+
+      // 🔥 Only include page when no filters applied
+      final isFiltering = selectedCourseId != null ||
+          searchQuery != null && searchQuery!.isNotEmpty ||
+          selectedStatus != null && selectedStatus!.isNotEmpty ||
+          selectedSource != null && selectedSource!.isNotEmpty;
+
+      if (!isFiltering) {
+        queryParams['page'] = page.toString();
+      }
+
+      print("params => $queryParams");
+
+      final repo = LeadRepository();
+      final result = await repo.getPaginatedLeads(queryParams);
+      return result;
+    } catch (e) {
+      print("Error in getPaginatedFilteredLeads: $e");
+      return [];
+    }
+  }
+
+  bool get isFiltering =>
+      selectedCourseId != null ||
+      (searchQuery != null && searchQuery!.isNotEmpty) ||
+      (selectedStatus != null && selectedStatus!.isNotEmpty) ||
+      (selectedSource != null && selectedSource!.isNotEmpty);
 }

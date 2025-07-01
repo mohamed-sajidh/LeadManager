@@ -25,4 +25,9 @@ class LeadRepository {
     final response = await _api.getFilteredLeads(queryParams);
     return response;
   }
+
+  Future<List<LeadModel>> getPaginatedLeads(queryParams) async {
+    final response = await _api.getPaginatedLeads(queryParams);
+    return response;
+  }
 }

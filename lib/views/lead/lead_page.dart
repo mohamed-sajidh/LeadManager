@@ -24,12 +24,12 @@ class _LeadPageState extends State<LeadPage> {
   void initState() {
     super.initState();
 
-    final accessProvider = Provider.of<LeadViewModel>(context, listen: false);
+    final leadProvider = Provider.of<LeadViewModel>(context, listen: false);
 
     _pagingController = PagingController<int, LeadModel>(
       getNextPageKey: (state) =>
           state.lastPageIsEmpty ? null : state.nextIntPageKey,
-      fetchPage: (pageKey) => accessProvider.getAllLeads(pageKey),
+      fetchPage: (pageKey) => leadProvider.getPaginatedFilteredLeads(pageKey),
     );
   }
 
@@ -37,6 +37,20 @@ class _LeadPageState extends State<LeadPage> {
   void dispose() {
     _pagingController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = Provider.of<LeadViewModel>(context, listen: false);
+
+      if (provider.isFiltering) {
+        provider.clearFilters();
+        _pagingController.refresh();
+      }
+    });
   }
 
   @override
@@ -77,15 +91,21 @@ class _LeadPageState extends State<LeadPage> {
                 return Row(
                   children: [
                     buildFilterButton(
-                      label: "select course",
+                      label: "Select Course",
                       icon: Icons.filter_list,
                       onTap: () async {
                         await provider.getAllCourses();
                         if (provider.getCoursesLoader) {
                           const AppLoadingIndicator();
                         } else {
-                          if (context.mounted) {
-                            showLeadCourseBottomSheet(context);
+                          if (!context.mounted) return;
+
+                          final selectedCourse =
+                              await showLeadCourseBottomSheet(context);
+                          if (selectedCourse != null) {
+                            provider.updateFilters(
+                                course: selectedCourse.courseId);
+                            await provider.fetchAndSetFilteredLeads();
                           }
                         }
                       },
@@ -100,19 +120,37 @@ class _LeadPageState extends State<LeadPage> {
             ),
           ),
           Expanded(
-            child: PagingListener(
-              controller: _pagingController,
-              builder: (context, state, fetchNextPage) =>
-                  PagedListView<int, LeadModel>.separated(
-                state: state,
-                fetchNextPage: fetchNextPage,
-                builderDelegate: PagedChildBuilderDelegate(
-                  itemBuilder: (context, item, index) =>
-                      SingleLeadCard(lead: item),
-                ),
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 10),
-              ),
+            child: Consumer<LeadViewModel>(
+              builder: (context, provider, child) {
+                if (provider.isFiltering) {
+                  final leads = provider.filteredLeads;
+                  if (leads.isEmpty) {
+                    return const Center(child: Text("No leads found."));
+                  }
+                  return ListView.separated(
+                    itemCount: leads.length,
+                    itemBuilder: (context, index) =>
+                        SingleLeadCard(lead: leads[index]),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 10),
+                  );
+                } else {
+                  return PagingListener(
+                    controller: _pagingController,
+                    builder: (context, state, fetchNextPage) =>
+                        PagedListView<int, LeadModel>.separated(
+                      state: state,
+                      fetchNextPage: fetchNextPage,
+                      builderDelegate: PagedChildBuilderDelegate(
+                        itemBuilder: (context, item, index) =>
+                            SingleLeadCard(lead: item),
+                      ),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 10),
+                    ),
+                  );
+                }
+              },
             ),
           ),
         ],

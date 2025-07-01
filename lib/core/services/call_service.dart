@@ -1,6 +1,6 @@
 import 'package:url_launcher/url_launcher.dart';
 
-void launchDialer(phoneNumber) async {
+void callLauncher(phoneNumber) async {
   final Uri launchUri = Uri(
     scheme: 'tel',
     path: phoneNumber,

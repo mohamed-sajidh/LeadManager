@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lead_manager/core/services/call_service.dart';
+import 'package:lead_manager/core/services/whatsapp_services.dart';
 import 'package:lead_manager/core/utils/app_assets.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/view_models/lead_view_model.dart';
@@ -124,15 +125,15 @@ class _LeadDetailPageState extends State<LeadDetailPage> {
                               imagePath: AppAssets.callIcon,
                               label: "Call",
                               onTap: () {
-                                launchDialer(singleLead.phoneNumber);
+                                callLauncher(singleLead.phoneNumber);
                               },
                             ),
                             const SizedBox(width: 30),
                             iconWithLabel(
                               imagePath: AppAssets.whatsappIcon,
                               label: "WhatsApp",
-                              onTap: () {
-                                print("Clicked WhatsApp");
+                              onTap: () async {
+                                await whatsappLauncher(singleLead.phoneNumber);
                               },
                             ),
                           ],

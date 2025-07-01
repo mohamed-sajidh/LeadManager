@@ -3,6 +3,7 @@ import 'package:lead_manager/core/constants/dio_client.dart';
 import 'package:lead_manager/models/course_model.dart';
 import 'package:lead_manager/models/lead_details_model.dart';
 import 'package:lead_manager/models/lead_model.dart';
+import 'package:lead_manager/models/lead_source_model.dart';
 import 'package:lead_manager/models/status_model.dart';
 
 class LeadApiServices {
@@ -126,6 +127,27 @@ class LeadApiServices {
       }
     } catch (e) {
       throw Exception('Error getting Status: $e');
+    }
+  }
+
+  Future<List<LeadSourceModel>> getLeadSource() async {
+    try {
+      final dio = await DioClient().getAuthorizedDio();
+
+      final response = await dio.get(ApiConstants.leadSourceEndPoint);
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonData = response.data;
+        final List<dynamic> leadSourceJson = jsonData['sources'];
+
+        return leadSourceJson
+            .map((item) => LeadSourceModel.fromJson(item))
+            .toList();
+      } else {
+        throw Exception('Failed to load Lead Source');
+      }
+    } catch (e) {
+      throw Exception('Error getting Lead Source: $e');
     }
   }
 }

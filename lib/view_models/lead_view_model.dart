@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lead_manager/models/course_model.dart';
 import 'package:lead_manager/models/lead_details_model.dart';
 import 'package:lead_manager/models/lead_model.dart';
+import 'package:lead_manager/models/lead_source_model.dart';
 import 'package:lead_manager/models/status_model.dart';
 import 'package:lead_manager/repositories/lead_repository.dart';
 
@@ -11,10 +12,12 @@ class LeadViewModel extends ChangeNotifier {
   bool getCoursesLoader = false;
   bool getFilteredLoader = false;
   bool getStatusLoader = false;
+  bool getLeadSourceLoader = false;
   List<LeadModel> leadItem = [];
   List<CourseModel> coursesItem = [];
   List<StatusModel> statusItem = [];
   List<LeadModel> filteredLeadItem = [];
+  List<LeadSourceModel> leadSourceItem = [];
   LeadDetailsModel? singleLeadItem;
   int? selectedCourseId;
   String? searchQuery;
@@ -220,6 +223,25 @@ class LeadViewModel extends ChangeNotifier {
       rethrow;
     } finally {
       getStatusLoader = false;
+      notifyListeners();
+    }
+  }
+
+  Future<List<LeadSourceModel>> getAllLeadSource() async {
+    try {
+      getLeadSourceLoader = true;
+      notifyListeners();
+
+      final leadRepo = LeadRepository();
+      final leadSource = await leadRepo.getLeadSource();
+      leadSourceItem = leadSource;
+
+      return leadSource;
+    } catch (e) {
+      print("Error Occurred while fetching the Status: $e");
+      rethrow;
+    } finally {
+      getLeadSourceLoader = false;
       notifyListeners();
     }
   }

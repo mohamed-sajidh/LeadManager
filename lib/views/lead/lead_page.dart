@@ -4,8 +4,10 @@ import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/models/lead_model.dart';
 import 'package:lead_manager/view_models/lead_view_model.dart';
 import 'package:lead_manager/views/lead/widgets/build_widgets.dart';
+import 'package:lead_manager/views/lead/widgets/course_bottom_sheet.dart';
 import 'package:lead_manager/views/lead/widgets/lead_search.dart';
 import 'package:lead_manager/views/lead/widgets/single_lead_card.dart';
+import 'package:lead_manager/widgets/custom_loader.dart';
 import 'package:provider/provider.dart';
 
 class LeadPage extends StatefulWidget {
@@ -70,20 +72,31 @@ class _LeadPageState extends State<LeadPage> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-            child: Row(
-              children: [
-                buildFilterButton(
-                  label: "select course",
-                  icon: Icons.filter_list,
-                  onTap: () {
-                    print("haiii");
-                  },
-                ),
-                buildFilterButton(
-                    label: "Sort", icon: Icons.sort, onTap: () {}),
-                buildFilterButton(label: "Lead Status", onTap: () {}),
-                buildFilterButton(label: "Lead Source", onTap: () {}),
-              ],
+            child: Consumer<LeadViewModel>(
+              builder: (context, provider, child) {
+                return Row(
+                  children: [
+                    buildFilterButton(
+                      label: "select course",
+                      icon: Icons.filter_list,
+                      onTap: () async {
+                        await provider.getAllCourses();
+                        if (provider.getCoursesLoader) {
+                          const AppLoadingIndicator();
+                        } else {
+                          if (context.mounted) {
+                            showLeadCourseBottomSheet(context);
+                          }
+                        }
+                      },
+                    ),
+                    buildFilterButton(
+                        label: "Sort", icon: Icons.sort, onTap: () {}),
+                    buildFilterButton(label: "Lead Status", onTap: () {}),
+                    buildFilterButton(label: "Lead Source", onTap: () {}),
+                  ],
+                );
+              },
             ),
           ),
           Expanded(

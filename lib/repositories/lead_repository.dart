@@ -20,4 +20,9 @@ class LeadRepository {
     final response = await _api.getCourses();
     return response;
   }
+
+  Future<List<LeadModel>> getFilteredLeads(queryParams) async {
+    final response = await _api.getFilteredLeads(queryParams);
+    return response;
+  }
 }

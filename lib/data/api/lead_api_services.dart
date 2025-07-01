@@ -62,4 +62,27 @@ class LeadApiServices {
       throw Exception('Error getting Courses: $e');
     }
   }
+
+  Future<List<LeadModel>> getFilteredLeads(
+      Map<String, String> queryParams) async {
+    try {
+      final dio = await DioClient().getAuthorizedDio();
+
+      final uri = Uri.parse(ApiConstants.leadEndPoint)
+          .replace(queryParameters: queryParams);
+
+      final response = await dio.getUri(uri);
+
+      if (response.statusCode == 200) {
+        final jsonData = response.data as Map<String, dynamic>;
+        final List<dynamic> leadJson = jsonData['results'];
+
+        return leadJson.map((item) => LeadModel.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load Leads');
+      }
+    } catch (e) {
+      throw Exception('Error getting Leads: $e');
+    }
+  }
 }

@@ -8,8 +8,10 @@ class LeadViewModel extends ChangeNotifier {
   bool getLeadsLoader = false;
   bool getLeadsByIdLoader = false;
   bool getCoursesLoader = false;
+  bool getFilteredLoader = false;
   List<LeadModel> leadItem = [];
   List<CourseModel> coursesItem = [];
+  List<LeadModel> filteredLeadItem = [];
   LeadDetailsModel? singleLeadItem;
 
   Future<List<LeadModel>> getAllLeads(int page) async {
@@ -62,6 +64,43 @@ class LeadViewModel extends ChangeNotifier {
       rethrow;
     } finally {
       getCoursesLoader = false;
+      notifyListeners();
+    }
+  }
+
+  Future<List<LeadModel>> fetchFilteredLeads({
+    int? courseId,
+    String? search,
+    String? status,
+    String? source,
+  }) async {
+    try {
+      getFilteredLoader = true;
+      notifyListeners();
+
+      final Map<String, String> queryParams = {};
+      if (courseId != null) queryParams['course'] = courseId.toString();
+      if (search != null && search.trim().isNotEmpty) {
+        queryParams['search'] = search.trim();
+      }
+      if (status != null && status.trim().isNotEmpty) {
+        queryParams['status'] = status.trim();
+      }
+
+      if (source != null && source.trim().isNotEmpty) {
+        queryParams['source'] = source.trim();
+      }
+
+      final leadRepo = LeadRepository();
+      final leads = await leadRepo.getFilteredLeads(queryParams);
+      filteredLeadItem = leads;
+
+      return leads;
+    } catch (e) {
+      print("Error fetching leads: $e");
+      return [];
+    } finally {
+      getFilteredLoader = false;
       notifyListeners();
     }
   }

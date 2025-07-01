@@ -59,6 +59,9 @@ void showLeadCourseBottomSheet(BuildContext context) {
                     final course = leadProvider.coursesItem[index];
                     return InkWell(
                       onTap: () {
+                        leadProvider.fetchFilteredLeads(
+                          courseId: leadProvider.coursesItem[index].courseId,
+                        );
                         Navigator.pop(context, course);
                       },
                       borderRadius: BorderRadius.circular(12),

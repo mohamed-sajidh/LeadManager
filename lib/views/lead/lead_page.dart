@@ -220,7 +220,7 @@ class _LeadPageState extends State<LeadPage> {
                           Icon(
                             Icons.search_off,
                             size: 64,
-                            color: Colors.grey,
+                            color: AppColors.grey,
                           ),
                           SizedBox(height: 12),
                           Text(
@@ -228,7 +228,7 @@ class _LeadPageState extends State<LeadPage> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black54,
+                              color: AppColors.black,
                             ),
                           ),
                           SizedBox(height: 6),
@@ -236,7 +236,7 @@ class _LeadPageState extends State<LeadPage> {
                             "Try adjusting your filters or search again.",
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.black45,
+                              color: AppColors.black,
                             ),
                           ),
                         ],

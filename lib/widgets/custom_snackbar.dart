@@ -20,7 +20,7 @@ void showCustomSnackbar(BuildContext context, String message) {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: AppColors.black.withOpacity(0.08),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),

@@ -97,22 +97,31 @@ class _LeadPageState extends State<LeadPage> {
                       icon: Icons.filter_list,
                       isSelected: provider.selectedCourseId != null,
                       onTap: () async {
-                        await provider.getAllCourses();
-                        if (provider.getCoursesLoader) {
-                          const AppLoadingIndicator();
-                        } else {
-                          if (!context.mounted) return;
+                        // Show loader while fetching courses
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => const Center(
+                            child: AppLoadingIndicator(size: 35),
+                          ),
+                        );
 
-                          final selectedCourse =
-                              await showLeadCourseBottomSheet(context);
-                          if (selectedCourse != null) {
-                            provider.updateFilters(
-                              course: selectedCourse.courseId,
-                              status: provider.selectedStatus,
-                              source: provider.selectedSource,
-                            );
-                            await provider.fetchAndSetFilteredLeads();
-                          }
+                        await provider.getAllCourses();
+
+                        // Close the loader
+                        if (context.mounted) Navigator.of(context).pop();
+
+                        if (!context.mounted) return;
+
+                        final selectedCourse =
+                            await showLeadCourseBottomSheet(context);
+                        if (selectedCourse != null) {
+                          provider.updateFilters(
+                            course: selectedCourse.courseId,
+                            status: provider.selectedStatus,
+                            source: provider.selectedSource,
+                          );
+                          await provider.fetchAndSetFilteredLeads();
                         }
                       },
                     ),
@@ -120,22 +129,31 @@ class _LeadPageState extends State<LeadPage> {
                       label: "Lead Status",
                       isSelected: provider.selectedStatus != null,
                       onTap: () async {
-                        await provider.getAllStatus();
-                        if (provider.getStatusLoader) {
-                          const AppLoadingIndicator();
-                        } else {
-                          if (!context.mounted) return;
+                        // Show loading dialog
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => const Center(
+                            child: AppLoadingIndicator(size: 35),
+                          ),
+                        );
 
-                          final selectedStatus =
-                              await showLeadStatusBottomSheet(context);
-                          if (selectedStatus != null) {
-                            provider.updateFilters(
-                              status: selectedStatus.statusId,
-                              course: provider.selectedCourseId,
-                              source: provider.selectedSource,
-                            );
-                            await provider.fetchAndSetFilteredLeads();
-                          }
+                        await provider.getAllStatus();
+
+                        // Dismiss loader
+                        if (context.mounted) Navigator.of(context).pop();
+
+                        if (!context.mounted) return;
+
+                        final selectedStatus =
+                            await showLeadStatusBottomSheet(context);
+                        if (selectedStatus != null) {
+                          provider.updateFilters(
+                            status: selectedStatus.statusId,
+                            course: provider.selectedCourseId,
+                            source: provider.selectedSource,
+                          );
+                          await provider.fetchAndSetFilteredLeads();
                         }
                       },
                     ),
@@ -143,22 +161,31 @@ class _LeadPageState extends State<LeadPage> {
                       label: "Lead Source",
                       isSelected: provider.selectedSource != null,
                       onTap: () async {
-                        await provider.getAllLeadSource();
-                        if (provider.getLeadSourceLoader) {
-                          const AppLoadingIndicator();
-                        } else {
-                          if (!context.mounted) return;
+                        // Show loader
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => const Center(
+                            child: AppLoadingIndicator(size: 35),
+                          ),
+                        );
 
-                          final selectedSource =
-                              await showLeadSourceBottomSheet(context);
-                          if (selectedSource != null) {
-                            provider.updateFilters(
-                              status: provider.selectedStatus,
-                              course: provider.selectedCourseId,
-                              source: selectedSource.sourceId,
-                            );
-                            await provider.fetchAndSetFilteredLeads();
-                          }
+                        await provider.getAllLeadSource();
+
+                        // Dismiss loader
+                        if (context.mounted) Navigator.of(context).pop();
+
+                        if (!context.mounted) return;
+
+                        final selectedSource =
+                            await showLeadSourceBottomSheet(context);
+                        if (selectedSource != null) {
+                          provider.updateFilters(
+                            status: provider.selectedStatus,
+                            course: provider.selectedCourseId,
+                            source: selectedSource.sourceId,
+                          );
+                          await provider.fetchAndSetFilteredLeads();
                         }
                       },
                     ),
@@ -174,7 +201,35 @@ class _LeadPageState extends State<LeadPage> {
                 if (provider.isFiltering) {
                   final leads = provider.filteredLeads;
                   if (leads.isEmpty) {
-                    return const Center(child: Text("No leads found."));
+                    return const Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.search_off,
+                            size: 64,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(height: 12),
+                          Text(
+                            "No Leads Found",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          SizedBox(height: 6),
+                          Text(
+                            "Try adjusting your filters or search again.",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black45,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                   }
                   return ListView.separated(
                     itemCount: leads.length,

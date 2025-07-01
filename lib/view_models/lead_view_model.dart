@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lead_manager/models/course_model.dart';
 import 'package:lead_manager/models/lead_details_model.dart';
 import 'package:lead_manager/models/lead_model.dart';
+import 'package:lead_manager/models/status_model.dart';
 import 'package:lead_manager/repositories/lead_repository.dart';
 
 class LeadViewModel extends ChangeNotifier {
@@ -9,8 +10,10 @@ class LeadViewModel extends ChangeNotifier {
   bool getLeadsByIdLoader = false;
   bool getCoursesLoader = false;
   bool getFilteredLoader = false;
+  bool getStatusLoader = false;
   List<LeadModel> leadItem = [];
   List<CourseModel> coursesItem = [];
+  List<StatusModel> statusItem = [];
   List<LeadModel> filteredLeadItem = [];
   LeadDetailsModel? singleLeadItem;
   int? selectedCourseId;
@@ -31,14 +34,18 @@ class LeadViewModel extends ChangeNotifier {
 
   Future<void> fetchAndSetFilteredLeads() async {
     final Map<String, String> queryParams = {};
-    if (selectedCourseId != null)
+    if (selectedCourseId != null) {
       queryParams['course'] = selectedCourseId.toString();
-    if (searchQuery != null && searchQuery!.isNotEmpty)
+    }
+    if (searchQuery != null && searchQuery!.isNotEmpty) {
       queryParams['search'] = searchQuery!;
-    if (selectedStatus != null && selectedStatus!.isNotEmpty)
+    }
+    if (selectedStatus != null && selectedStatus!.isNotEmpty) {
       queryParams['status'] = selectedStatus!;
-    if (selectedSource != null && selectedSource!.isNotEmpty)
+    }
+    if (selectedSource != null && selectedSource!.isNotEmpty) {
       queryParams['source'] = selectedSource!;
+    }
 
     try {
       final repo = LeadRepository();
@@ -189,4 +196,23 @@ class LeadViewModel extends ChangeNotifier {
       (searchQuery != null && searchQuery!.isNotEmpty) ||
       (selectedStatus != null && selectedStatus!.isNotEmpty) ||
       (selectedSource != null && selectedSource!.isNotEmpty);
+
+  Future<List<StatusModel>> getAllStatus() async {
+    try {
+      getStatusLoader = true;
+      notifyListeners();
+
+      final leadRepo = LeadRepository();
+      final status = await leadRepo.getStatus();
+      statusItem = status;
+
+      return status;
+    } catch (e) {
+      print("Error Occurred while fetching the Status: $e");
+      rethrow;
+    } finally {
+      getStatusLoader = false;
+      notifyListeners();
+    }
+  }
 }

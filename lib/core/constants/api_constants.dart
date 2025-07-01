@@ -16,6 +16,9 @@ class ApiConstants {
 
   // Course URL
   static String courseEndPoint = '$baseUrl/api/courses/';
+
+  // Status URL
+  static String statusEndPoint = '$baseUrl/api/lead/statuses/';
 }
 
 

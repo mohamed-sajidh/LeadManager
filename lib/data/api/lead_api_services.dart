@@ -3,6 +3,7 @@ import 'package:lead_manager/core/constants/dio_client.dart';
 import 'package:lead_manager/models/course_model.dart';
 import 'package:lead_manager/models/lead_details_model.dart';
 import 'package:lead_manager/models/lead_model.dart';
+import 'package:lead_manager/models/status_model.dart';
 
 class LeadApiServices {
   Future<List<LeadModel>> getLeads(int page) async {
@@ -103,6 +104,25 @@ class LeadApiServices {
     } catch (e) {
       print("Error in getPaginatedLeads: $e");
       rethrow;
+    }
+  }
+
+  Future<List<StatusModel>> getStatus() async {
+    try {
+      final dio = await DioClient().getAuthorizedDio();
+
+      final response = await dio.get(ApiConstants.statusEndPoint);
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonData = response.data;
+        final List<dynamic> statusJson = jsonData['statuses'];
+
+        return statusJson.map((item) => StatusModel.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load Status');
+      }
+    } catch (e) {
+      throw Exception('Error getting Status: $e');
     }
   }
 }

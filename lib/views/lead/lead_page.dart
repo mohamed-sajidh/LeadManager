@@ -3,6 +3,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/models/lead_model.dart';
 import 'package:lead_manager/view_models/lead_view_model.dart';
+import 'package:lead_manager/views/lead/widgets/build_widgets.dart';
 import 'package:lead_manager/views/lead/widgets/lead_search.dart';
 import 'package:lead_manager/views/lead/widgets/single_lead_card.dart';
 import 'package:provider/provider.dart';
@@ -64,17 +65,44 @@ class _LeadPageState extends State<LeadPage> {
           ),
         ],
       ),
-      body: PagingListener(
-        controller: _pagingController,
-        builder: (context, state, fetchNextPage) =>
-            PagedListView<int, LeadModel>.separated(
-          state: state,
-          fetchNextPage: fetchNextPage,
-          builderDelegate: PagedChildBuilderDelegate(
-            itemBuilder: (context, item, index) => SingleLeadCard(lead: item),
+      body: Column(
+        children: [
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+            child: Row(
+              children: [
+                buildFilterButton(
+                  label: "select course",
+                  icon: Icons.filter_list,
+                  onTap: () {
+                    print("haiii");
+                  },
+                ),
+                buildFilterButton(
+                    label: "Sort", icon: Icons.sort, onTap: () {}),
+                buildFilterButton(label: "Lead Status", onTap: () {}),
+                buildFilterButton(label: "Lead Source", onTap: () {}),
+              ],
+            ),
           ),
-          separatorBuilder: (context, index) => const SizedBox(height: 10),
-        ),
+          Expanded(
+            child: PagingListener(
+              controller: _pagingController,
+              builder: (context, state, fetchNextPage) =>
+                  PagedListView<int, LeadModel>.separated(
+                state: state,
+                fetchNextPage: fetchNextPage,
+                builderDelegate: PagedChildBuilderDelegate(
+                  itemBuilder: (context, item, index) =>
+                      SingleLeadCard(lead: item),
+                ),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 10),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

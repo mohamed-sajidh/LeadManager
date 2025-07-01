@@ -14,3 +14,6 @@ class ApiConstants {
   static String leadByIdEndPoint(String userId) =>
       '$baseUrl/api/leads/$userId/';
 }
+
+
+// https://api.crm.luminartechnohub.com/api/leads/?course=7

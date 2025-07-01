@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/utils/app_assets.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 
 Widget buildStatusChip(bool isActive) {
@@ -120,115 +119,58 @@ Widget iconWithLabel({
 }
 
 String getInitials(String name) {
-    try {
-      final cleanName = name.replaceAll(RegExp(r'[^\x00-\x7F]'), '').trim();
-      final parts = cleanName.split(' ');
+  try {
+    final cleanName = name.replaceAll(RegExp(r'[^\x00-\x7F]'), '').trim();
+    final parts = cleanName.split(' ');
 
-      if (parts.isEmpty || parts[0].isEmpty) return "??";
-      if (parts.length == 1) return parts[0][0].toUpperCase();
+    if (parts.isEmpty || parts[0].isEmpty) return "??";
+    if (parts.length == 1) return parts[0][0].toUpperCase();
 
-      return (parts[0][0] + parts[1][0]).toUpperCase();
-    } catch (e) {
-      return "??";
-    }
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  } catch (e) {
+    return "??";
   }
+}
 
-
-
-
-// iconWithLabel(
-//                             imagePath: AppAssets.callIcon,
-//                             label: "Call",
-//                             onTap: () {
-//                               print("Clicked Call");
-//                             },
-//                           ),
-//                           const SizedBox(height: 6),
-//                           iconWithLabel(
-//                             imagePath: AppAssets.whatsappIcon,
-//                             label: "WhatsApp",
-//                             onTap: () {
-//                               print("Clicked WhatsApp");
-//                             },
-//                           ),
-
-
-
-// councelors details
-
-// Container(
-//                     padding: const EdgeInsets.all(16),
-//                     decoration: BoxDecoration(
-//                       color: const Color(0xFFF1F8E9), // light greenish-white
-//                       borderRadius: BorderRadius.circular(12),
-//                       border: Border.all(color: Colors.green.withOpacity(0.2)),
-//                     ),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         const Text(
-//                           "Counselors",
-//                           style: TextStyle(
-//                             fontSize: 16,
-//                             fontWeight: FontWeight.w600,
-//                             color: Colors.green,
-//                           ),
-//                         ),
-//                         const SizedBox(height: 12),
-//                         ListView.separated(
-//                           shrinkWrap: true,
-//                           physics: const NeverScrollableScrollPhysics(),
-//                           itemCount: counselors.length,
-//                           separatorBuilder: (_, __) =>
-//                               const SizedBox(height: 12),
-//                           itemBuilder: (context, index) {
-//                             final counselor = counselors[index];
-//                             return Row(
-//                               children: [
-//                                 CircleAvatar(
-//                                   radius: 24,
-//                                   backgroundImage: counselor.profilePic != null
-//                                       ? NetworkImage(counselor.profilePic!)
-//                                       : const AssetImage(
-//                                               AppAssets.defaultProfile)
-//                                           as ImageProvider,
-//                                   backgroundColor: Colors.grey[200],
-//                                 ),
-//                                 const SizedBox(width: 12),
-//                                 Expanded(
-//                                   child: Column(
-//                                     crossAxisAlignment:
-//                                         CrossAxisAlignment.start,
-//                                     children: [
-//                                       Text(counselor.fullName,
-//                                           style: const TextStyle(
-//                                             fontWeight: FontWeight.w600,
-//                                             fontSize: 15,
-//                                           )),
-//                                       const SizedBox(height: 2),
-//                                       Text(counselor.email,
-//                                           style: const TextStyle(
-//                                             color: Colors.black54,
-//                                             fontSize: 13,
-//                                           )),
-//                                       Text(counselor.phone,
-//                                           style: const TextStyle(
-//                                             color: Colors.black54,
-//                                             fontSize: 13,
-//                                           )),
-//                                       Text(
-//                                           "Role: ${counselor.roleDetails.label}",
-//                                           style: const TextStyle(
-//                                             fontSize: 13,
-//                                             color: Colors.black87,
-//                                           )),
-//                                     ],
-//                                   ),
-//                                 ),
-//                               ],
-//                             );
-//                           },
-//                         ),
-//                       ],
-//                     ),
-//                   ),
+Widget buildFilterButton({
+  required String label,
+  IconData? icon,
+  VoidCallback? onTap,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    // borderRadius: BorderRadius.circular(30),
+    child: Container(
+      margin: const EdgeInsets.only(right: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: AppColors.primaryColor, width: 1.2),
+        borderRadius: BorderRadius.circular(30),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primaryColor.withOpacity(0.1),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          if (icon != null) ...[
+            Icon(icon, size: 16, color: AppColors.primaryColor),
+            const SizedBox(width: 6),
+          ],
+          Text(
+            label,
+            style: TextStyle(
+              color: AppColors.primaryColor,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}

@@ -14,6 +14,7 @@ class LeadViewModel extends ChangeNotifier {
   bool getFilteredLoader = false;
   bool getStatusLoader = false;
   bool getLeadSourceLoader = false;
+  bool isLoadingFilteredLeads = false;
   List<LeadModel> leadItem = [];
   List<CourseModel> coursesItem = [];
   List<StatusModel> statusItem = [];
@@ -52,11 +53,15 @@ class LeadViewModel extends ChangeNotifier {
       queryParams['lead_source'] = selectedSource!;
     }
 
+    isLoadingFilteredLeads = true;
+    notifyListeners();
+
     try {
       final repo = LeadRepository();
       final response = await repo.getPaginatedLeads(queryParams);
 
       _filteredLeads = response.results;
+      isLoadingFilteredLeads = false;
       notifyListeners();
 
       if (isFiltering) {
@@ -73,12 +78,11 @@ class LeadViewModel extends ChangeNotifier {
     } catch (e) {
       print("Error fetching filtered leads: $e");
       _filteredLeads = [];
+      isLoadingFilteredLeads = false;
       notifyListeners();
 
-      if (isFiltering) {
-        if (context.mounted) {
-          showCustomSnackbar(context, "Failed to fetch leads.");
-        }
+      if (isFiltering && context.mounted) {
+        showCustomSnackbar(context, "Failed to fetch leads.");
       }
     }
   }

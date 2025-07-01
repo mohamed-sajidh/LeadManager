@@ -206,7 +206,12 @@ class _LeadPageState extends State<LeadPage> {
             child: Consumer<LeadViewModel>(
               builder: (context, provider, child) {
                 if (provider.isFiltering) {
+                  if (provider.isLoadingFilteredLeads) {
+                    return const Center(child: AppLoadingIndicator(size: 35));
+                  }
+
                   final leads = provider.filteredLeads;
+
                   if (leads.isEmpty) {
                     return const Center(
                       child: Column(
@@ -238,6 +243,7 @@ class _LeadPageState extends State<LeadPage> {
                       ),
                     );
                   }
+
                   return ListView.separated(
                     itemCount: leads.length,
                     itemBuilder: (context, index) =>
@@ -265,8 +271,9 @@ class _LeadPageState extends State<LeadPage> {
                         newPageErrorIndicatorBuilder: (context) =>
                             const Padding(
                           padding: EdgeInsets.symmetric(vertical: 16),
-                          child:
-                              Center(child: Text('Failed to load more leads')),
+                          child: Center(
+                            child: Text('Failed to load more leads'),
+                          ),
                         ),
                       ),
                       separatorBuilder: (context, index) =>
@@ -276,7 +283,7 @@ class _LeadPageState extends State<LeadPage> {
                 }
               },
             ),
-          ),
+          )
         ],
       ),
     );

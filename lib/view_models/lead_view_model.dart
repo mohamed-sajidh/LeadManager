@@ -47,7 +47,7 @@ class LeadViewModel extends ChangeNotifier {
       queryParams['lead_status'] = selectedStatus.toString();
     }
     if (selectedSource != null && selectedSource!.isNotEmpty) {
-      queryParams['source'] = selectedSource!;
+      queryParams['lead_source'] = selectedSource!;
     }
 
     try {
@@ -148,7 +148,7 @@ class LeadViewModel extends ChangeNotifier {
       }
 
       if (source != null && source.trim().isNotEmpty) {
-        queryParams['source'] = source.trim();
+        queryParams['lead_source'] = source.trim();
       }
 
       final leadRepo = LeadRepository();
@@ -180,7 +180,7 @@ class LeadViewModel extends ChangeNotifier {
         queryParams['search'] = searchQuery!;
       }
       if (selectedSource != null && selectedSource!.isNotEmpty) {
-        queryParams['source'] = selectedSource!;
+        queryParams['lead_source'] = selectedSource!;
       }
 
       // Only include page if no filters are applied

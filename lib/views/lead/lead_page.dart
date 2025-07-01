@@ -109,6 +109,7 @@ class _LeadPageState extends State<LeadPage> {
                             provider.updateFilters(
                               course: selectedCourse.courseId,
                               status: provider.selectedStatus,
+                              source: provider.selectedSource,
                             );
                             await provider.fetchAndSetFilteredLeads();
                           }
@@ -131,6 +132,7 @@ class _LeadPageState extends State<LeadPage> {
                             provider.updateFilters(
                               status: selectedStatus.statusId,
                               course: provider.selectedCourseId,
+                              source: provider.selectedSource,
                             );
                             await provider.fetchAndSetFilteredLeads();
                           }
@@ -147,15 +149,16 @@ class _LeadPageState extends State<LeadPage> {
                         } else {
                           if (!context.mounted) return;
 
-                          final selectedStatus =
+                          final selectedSource =
                               await showLeadSourceBottomSheet(context);
-                          // if (selectedStatus != null) {
-                          //   provider.updateFilters(
-                          //     status: selectedStatus.statusId,
-                          //     course: provider.selectedCourseId,
-                          //   );
-                          //   await provider.fetchAndSetFilteredLeads();
-                          // }
+                          if (selectedSource != null) {
+                            provider.updateFilters(
+                              status: provider.selectedStatus,
+                              course: provider.selectedCourseId,
+                              source: selectedSource.sourceId,
+                            );
+                            await provider.fetchAndSetFilteredLeads();
+                          }
                         }
                       },
                     ),

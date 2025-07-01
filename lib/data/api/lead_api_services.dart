@@ -1,5 +1,6 @@
 import 'package:lead_manager/core/constants/api_constants.dart';
 import 'package:lead_manager/core/constants/dio_client.dart';
+import 'package:lead_manager/models/course_model.dart';
 import 'package:lead_manager/models/lead_details_model.dart';
 import 'package:lead_manager/models/lead_model.dart';
 
@@ -40,6 +41,25 @@ class LeadApiServices {
       }
     } catch (e) {
       throw Exception('Error getting Leads By Id: $e');
+    }
+  }
+
+  Future<List<CourseModel>> getCourses() async {
+    try {
+      final dio = await DioClient().getAuthorizedDio();
+
+      final response = await dio.get(ApiConstants.courseEndPoint);
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonData = response.data;
+        final List<dynamic> courseJson = jsonData['courses'];
+
+        return courseJson.map((item) => CourseModel.fromJson(item)).toList();
+      } else {
+        throw Exception('Failed to load Courses');
+      }
+    } catch (e) {
+      throw Exception('Error getting Courses: $e');
     }
   }
 }

@@ -255,6 +255,19 @@ class _LeadPageState extends State<LeadPage> {
                       builderDelegate: PagedChildBuilderDelegate(
                         itemBuilder: (context, item, index) =>
                             SingleLeadCard(lead: item),
+                        newPageProgressIndicatorBuilder: (context) =>
+                            const Padding(
+                          padding: EdgeInsets.only(bottom: 90, top: 16),
+                          child: Center(
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        ),
+                        newPageErrorIndicatorBuilder: (context) =>
+                            const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child:
+                              Center(child: Text('Failed to load more leads')),
+                        ),
                       ),
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 10),

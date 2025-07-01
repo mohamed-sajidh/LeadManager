@@ -91,9 +91,12 @@ class LeadApiServices {
       Map<String, String> queryParams) async {
     try {
       print("params => $queryParams");
+
       final dio = await DioClient().getAuthorizedDio();
-      final response = await dio.get(ApiConstants.leadEndPoint,
-          queryParameters: queryParams);
+      final response = await dio.get(
+        ApiConstants.leadEndPoint,
+        queryParameters: queryParams,
+      );
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonList = response.data['results'];

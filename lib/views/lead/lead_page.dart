@@ -7,6 +7,7 @@ import 'package:lead_manager/views/lead/widgets/build_widgets.dart';
 import 'package:lead_manager/views/lead/widgets/course_bottom_sheet.dart';
 import 'package:lead_manager/views/lead/widgets/lead_search.dart';
 import 'package:lead_manager/views/lead/widgets/single_lead_card.dart';
+import 'package:lead_manager/views/lead/widgets/status_bottom_sheet.dart';
 import 'package:lead_manager/widgets/custom_loader.dart';
 import 'package:provider/provider.dart';
 
@@ -104,7 +105,30 @@ class _LeadPageState extends State<LeadPage> {
                               await showLeadCourseBottomSheet(context);
                           if (selectedCourse != null) {
                             provider.updateFilters(
-                                course: selectedCourse.courseId);
+                              course: selectedCourse.courseId,
+                              status: provider.selectedStatus,
+                            );
+                            await provider.fetchAndSetFilteredLeads();
+                          }
+                        }
+                      },
+                    ),
+                    buildFilterButton(
+                      label: "Lead Status",
+                      onTap: () async {
+                        await provider.getAllStatus();
+                        if (provider.getStatusLoader) {
+                          const AppLoadingIndicator();
+                        } else {
+                          if (!context.mounted) return;
+
+                          final selectedStatus =
+                              await showLeadStatusBottomSheet(context);
+                          if (selectedStatus != null) {
+                            provider.updateFilters(
+                              status: selectedStatus.statusId,
+                              course: provider.selectedCourseId,
+                            );
                             await provider.fetchAndSetFilteredLeads();
                           }
                         }
@@ -112,7 +136,6 @@ class _LeadPageState extends State<LeadPage> {
                     ),
                     buildFilterButton(
                         label: "Sort", icon: Icons.sort, onTap: () {}),
-                    buildFilterButton(label: "Lead Status", onTap: () {}),
                     buildFilterButton(label: "Lead Source", onTap: () {}),
                   ],
                 );

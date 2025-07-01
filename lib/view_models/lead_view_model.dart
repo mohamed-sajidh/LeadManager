@@ -18,7 +18,7 @@ class LeadViewModel extends ChangeNotifier {
   LeadDetailsModel? singleLeadItem;
   int? selectedCourseId;
   String? searchQuery;
-  String? selectedStatus;
+  int? selectedStatus;
   String? selectedSource;
   List<LeadModel> _filteredLeads = [];
   List<LeadModel> get filteredLeads => _filteredLeads;
@@ -40,8 +40,8 @@ class LeadViewModel extends ChangeNotifier {
     if (searchQuery != null && searchQuery!.isNotEmpty) {
       queryParams['search'] = searchQuery!;
     }
-    if (selectedStatus != null && selectedStatus!.isNotEmpty) {
-      queryParams['status'] = selectedStatus!;
+    if (selectedStatus != null) {
+      queryParams['lead_status'] = selectedStatus.toString();
     }
     if (selectedSource != null && selectedSource!.isNotEmpty) {
       queryParams['source'] = selectedSource!;
@@ -61,7 +61,7 @@ class LeadViewModel extends ChangeNotifier {
   void updateFilters({
     int? course,
     String? search,
-    String? status,
+    int? status,
     String? source,
   }) {
     selectedCourseId = course;
@@ -141,7 +141,7 @@ class LeadViewModel extends ChangeNotifier {
         queryParams['search'] = search.trim();
       }
       if (status != null && status.trim().isNotEmpty) {
-        queryParams['status'] = status.trim();
+        queryParams['lead_status'] = status.trim();
       }
 
       if (source != null && source.trim().isNotEmpty) {
@@ -166,21 +166,29 @@ class LeadViewModel extends ChangeNotifier {
     try {
       final Map<String, String> queryParams = {};
 
+      // Add filters if available
       if (selectedCourseId != null) {
         queryParams['course'] = selectedCourseId.toString();
       }
+      if (selectedStatus != null) {
+        queryParams['lead_status'] = selectedStatus.toString();
+      }
+      if (searchQuery != null && searchQuery!.isNotEmpty) {
+        queryParams['search'] = searchQuery!;
+      }
+      if (selectedSource != null && selectedSource!.isNotEmpty) {
+        queryParams['source'] = selectedSource!;
+      }
 
-      // 🔥 Only include page when no filters applied
+      // Only include page if no filters are applied
       final isFiltering = selectedCourseId != null ||
-          searchQuery != null && searchQuery!.isNotEmpty ||
-          selectedStatus != null && selectedStatus!.isNotEmpty ||
-          selectedSource != null && selectedSource!.isNotEmpty;
+          (searchQuery != null && searchQuery!.isNotEmpty) ||
+          selectedStatus != null ||
+          (selectedSource != null && selectedSource!.isNotEmpty);
 
       if (!isFiltering) {
         queryParams['page'] = page.toString();
       }
-
-      print("params => $queryParams");
 
       final repo = LeadRepository();
       final result = await repo.getPaginatedLeads(queryParams);
@@ -194,7 +202,7 @@ class LeadViewModel extends ChangeNotifier {
   bool get isFiltering =>
       selectedCourseId != null ||
       (searchQuery != null && searchQuery!.isNotEmpty) ||
-      (selectedStatus != null && selectedStatus!.isNotEmpty) ||
+      selectedStatus != null ||
       (selectedSource != null && selectedSource!.isNotEmpty);
 
   Future<List<StatusModel>> getAllStatus() async {

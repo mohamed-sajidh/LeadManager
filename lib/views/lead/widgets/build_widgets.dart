@@ -139,7 +139,6 @@ Widget buildFilterButton({
 }) {
   return GestureDetector(
     onTap: onTap,
-    // borderRadius: BorderRadius.circular(30),
     child: Container(
       margin: const EdgeInsets.only(right: 10),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -163,7 +162,7 @@ Widget buildFilterButton({
           ],
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColors.primaryColor,
               fontSize: 13,
               fontWeight: FontWeight.w600,

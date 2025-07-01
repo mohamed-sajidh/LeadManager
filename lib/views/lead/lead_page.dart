@@ -6,6 +6,7 @@ import 'package:lead_manager/view_models/lead_view_model.dart';
 import 'package:lead_manager/views/lead/widgets/build_widgets.dart';
 import 'package:lead_manager/views/lead/widgets/course_bottom_sheet.dart';
 import 'package:lead_manager/views/lead/widgets/lead_search.dart';
+import 'package:lead_manager/views/lead/widgets/lead_source_bottom_sheet.dart';
 import 'package:lead_manager/views/lead/widgets/single_lead_card.dart';
 import 'package:lead_manager/views/lead/widgets/status_bottom_sheet.dart';
 import 'package:lead_manager/widgets/custom_loader.dart';
@@ -137,7 +138,27 @@ class _LeadPageState extends State<LeadPage> {
                       },
                     ),
                     buildFilterButton(
-                        label: "Sort", icon: Icons.sort, onTap: () {}),
+                      label: "Lead Source",
+                      isSelected: provider.selectedSource != null,
+                      onTap: () async {
+                        await provider.getAllLeadSource();
+                        if (provider.getLeadSourceLoader) {
+                          const AppLoadingIndicator();
+                        } else {
+                          if (!context.mounted) return;
+
+                          final selectedStatus =
+                              await showLeadSourceBottomSheet(context);
+                          // if (selectedStatus != null) {
+                          //   provider.updateFilters(
+                          //     status: selectedStatus.statusId,
+                          //     course: provider.selectedCourseId,
+                          //   );
+                          //   await provider.fetchAndSetFilteredLeads();
+                          // }
+                        }
+                      },
+                    ),
                     buildFilterButton(label: "Lead Source", onTap: () {}),
                   ],
                 );

@@ -32,10 +32,10 @@ Future<CourseModel?> showLeadCourseBottomSheet(BuildContext context) {
                   color: AppColors.primaryColor,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 ),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "Select Course",
                       style: TextStyle(
                         fontSize: 18,
@@ -43,7 +43,16 @@ Future<CourseModel?> showLeadCourseBottomSheet(BuildContext context) {
                         color: AppColors.white,
                       ),
                     ),
-                    Icon(Icons.close, color: AppColors.white, size: 24),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        color: AppColors.white,
+                        size: 24,
+                      ),
+                    ),
                   ],
                 ),
               ),

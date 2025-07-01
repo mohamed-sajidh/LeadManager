@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/models/status_model.dart';
+import 'package:lead_manager/models/lead_source_model.dart';
 import 'package:lead_manager/view_models/lead_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 
-Future<StatusModel?> showLeadStatusBottomSheet(BuildContext context) {
+Future<LeadSourceModel?> showLeadSourceBottomSheet(BuildContext context) {
   final leadProvider = Provider.of<LeadViewModel>(context, listen: false);
 
-  return showModalBottomSheet<StatusModel>(
+  return showModalBottomSheet<LeadSourceModel>(
     context: context,
     isScrollControlled: true,
     backgroundColor: AppColors.secondaryColor,
@@ -36,7 +36,7 @@ Future<StatusModel?> showLeadStatusBottomSheet(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Select Status",
+                      "Select Status Source",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -63,13 +63,13 @@ Future<StatusModel?> showLeadStatusBottomSheet(BuildContext context) {
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: leadProvider.statusItem.length,
+                  itemCount: leadProvider.leadSourceItem.length,
                   separatorBuilder: (_, __) => const Divider(height: 1),
                   itemBuilder: (context, index) {
-                    final status = leadProvider.statusItem[index];
+                    final leadSource = leadProvider.leadSourceItem[index];
                     return InkWell(
                       onTap: () {
-                        Navigator.pop(context, status); // return course
+                        Navigator.pop(context, leadSource); // return course
                       },
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
@@ -91,7 +91,7 @@ Future<StatusModel?> showLeadStatusBottomSheet(BuildContext context) {
                           children: [
                             Expanded(
                               child: Text(
-                                status.statusName,
+                                leadSource.sourceLabel,
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,

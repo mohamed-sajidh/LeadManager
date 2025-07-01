@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lead_manager/core/services/call_service.dart';
 import 'package:lead_manager/core/utils/app_assets.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/view_models/lead_view_model.dart';
@@ -123,7 +124,7 @@ class _LeadDetailPageState extends State<LeadDetailPage> {
                               imagePath: AppAssets.callIcon,
                               label: "Call",
                               onTap: () {
-                                print("Clicked Call");
+                                launchDialer(singleLead.phoneNumber);
                               },
                             ),
                             const SizedBox(width: 30),
@@ -190,16 +191,14 @@ class _LeadDetailPageState extends State<LeadDetailPage> {
                               infoRow(
                                 icon: Icons.email_outlined,
                                 label: "Email",
-                                value:
-                                    singleLead.counselorDetails.email,
+                                value: singleLead.counselorDetails.email,
                                 iconColor: const Color(AppColors.deepBrown),
                               ),
                               const SizedBox(height: 8),
                               infoRow(
                                 icon: Icons.phone,
                                 label: "Phone",
-                                value:
-                                    singleLead.counselorDetails.phone,
+                                value: singleLead.counselorDetails.phone,
                                 iconColor: const Color(AppColors.deepBrown),
                               ),
                               const SizedBox(height: 8),
@@ -207,7 +206,7 @@ class _LeadDetailPageState extends State<LeadDetailPage> {
                                 icon: Icons.badge_outlined,
                                 label: "Role",
                                 value: singleLead
-                                        .counselorDetails.roleDetails.label,
+                                    .counselorDetails.roleDetails.label,
                                 iconColor: const Color(AppColors.deepBrown),
                               ),
                             ],
@@ -244,12 +243,14 @@ class _LeadDetailPageState extends State<LeadDetailPage> {
                               trackerInfoRow(
                                 label: "Lead Count",
                                 value: singleLead
-                                        .websiteformDetails.tracker.leadCount
-                                        .toString(),
+                                    .websiteformDetails.tracker.leadCount
+                                    .toString(),
                               ),
                               trackerInfoRow(
                                 label: "Last Lead Time",
-                                value: singleLead.websiteformDetails.tracker
+                                value: singleLead
+                                            .websiteformDetails
+                                            .tracker
                                             // ignore: unnecessary_null_comparison
                                             .lastLeadTime !=
                                         null

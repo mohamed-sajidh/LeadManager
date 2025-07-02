@@ -57,6 +57,29 @@ Future<Map<String, DateTime>?> showDateBottomSheet(BuildContext context) {
                   ),
                   const SizedBox(height: 20),
 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: ElevatedButton.icon(
+                      onPressed: () =>
+                          Navigator.pop(context, <String, DateTime>{}),
+                      icon: const Icon(Icons.clear, color: AppColors.red),
+                      label: const Text(
+                        "Clear Date Filter",
+                        style: TextStyle(color: AppColors.red),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: AppColors.red.withOpacity(0.08),
+                        foregroundColor: AppColors.red,
+                        side: BorderSide(color: AppColors.red.withOpacity(0.3)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
                   // From Date
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16),

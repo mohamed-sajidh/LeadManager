@@ -279,25 +279,42 @@ class _LeadPageState extends State<LeadPage> {
                         isSelected: provider.selectedFromDate != null,
                         onTap: () async {
                           final result = await showDateBottomSheet(context);
-                          if (result != null) {
-                            final from = result['from'];
-                            final to = result['to'];
 
-                            final formattedFrom =
-                                DateFormat('yyyy-MM-dd').format(from!);
-                            final formattedTo =
-                                DateFormat('yyyy-MM-dd').format(to!);
+                          if (result == null) return; // User cancelled
 
+                          // 🔴 Handle Clear
+                          if (result.isEmpty) {
                             provider.updateFilters(
                               status: provider.selectedStatus,
                               course: provider.selectedCourseId,
                               source: provider.selectedSource,
-                              fromDate: formattedFrom,
-                              toDate: formattedTo,
+                              fromDate: null,
+                              toDate: null,
                             );
                             if (context.mounted) {
                               await provider.fetchAndSetFilteredLeads(context);
                             }
+                            return;
+                          }
+
+                          // ✅ Handle Apply
+                          final from = result['from'];
+                          final to = result['to'];
+
+                          final formattedFrom =
+                              DateFormat('yyyy-MM-dd').format(from!);
+                          final formattedTo =
+                              DateFormat('yyyy-MM-dd').format(to!);
+
+                          provider.updateFilters(
+                            status: provider.selectedStatus,
+                            course: provider.selectedCourseId,
+                            source: provider.selectedSource,
+                            fromDate: formattedFrom,
+                            toDate: formattedTo,
+                          );
+                          if (context.mounted) {
+                            await provider.fetchAndSetFilteredLeads(context);
                           }
                         },
                       ),

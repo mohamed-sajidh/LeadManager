@@ -62,7 +62,6 @@ Future<StatusModel?> showLeadStatusBottomSheet(BuildContext context) {
                   separatorBuilder: (_, __) => const SizedBox(height: 12),
                   itemBuilder: (context, index) {
                     if (index == 0) {
-                      // 🔴 Clear Status Filter
                       return InkWell(
                         onTap: () => Navigator.pop(context, null),
                         borderRadius: BorderRadius.circular(12),
@@ -70,21 +69,21 @@ Future<StatusModel?> showLeadStatusBottomSheet(BuildContext context) {
                           padding: const EdgeInsets.symmetric(
                               vertical: 14, horizontal: 16),
                           decoration: BoxDecoration(
-                            color: Colors.red.withOpacity(0.08),
+                            color: AppColors.red.withOpacity(0.08),
                             borderRadius: BorderRadius.circular(12),
-                            border:
-                                Border.all(color: Colors.red.withOpacity(0.4)),
+                            border: Border.all(
+                                color: AppColors.red.withOpacity(0.4)),
                           ),
-                          child: Row(
-                            children: const [
-                              Icon(Icons.clear, color: Colors.red),
+                          child: const Row(
+                            children: [
+                              Icon(Icons.clear, color: AppColors.red),
                               SizedBox(width: 10),
                               Text(
                                 "Clear Status Filter",
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.red,
+                                  color: AppColors.red,
                                 ),
                               ),
                             ],
@@ -105,7 +104,7 @@ Future<StatusModel?> showLeadStatusBottomSheet(BuildContext context) {
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black12.withOpacity(0.04),
+                              color: AppColors.black.withOpacity(0.04),
                               blurRadius: 4,
                               offset: const Offset(0, 2),
                             ),

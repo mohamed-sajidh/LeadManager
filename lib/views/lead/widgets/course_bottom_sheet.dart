@@ -44,14 +44,9 @@ Future<CourseModel?> showLeadCourseBottomSheet(BuildContext context) {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.close,
-                        color: AppColors.white,
-                        size: 24,
-                      ),
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(Icons.close,
+                          color: AppColors.white, size: 24),
                     ),
                   ],
                 ),
@@ -59,18 +54,47 @@ Future<CourseModel?> showLeadCourseBottomSheet(BuildContext context) {
 
               const SizedBox(height: 10),
 
-              // List of Courses
+              // List of Courses with Clear Option
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: leadProvider.coursesItem.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
+                  itemCount: leadProvider.coursesItem.length + 1,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
                   itemBuilder: (context, index) {
-                    final course = leadProvider.coursesItem[index];
+                    if (index == 0) {
+                      return InkWell(
+                        onTap: () => Navigator.pop(context, null),
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: AppColors.red.withOpacity(0.08),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                                color: AppColors.red.withOpacity(0.4)),
+                          ),
+                          child: const Row(
+                            children: [
+                              Icon(Icons.clear, color: AppColors.red),
+                              SizedBox(width: 10),
+                              Text(
+                                "Clear Course Filter",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+
+                    final course = leadProvider.coursesItem[index - 1];
                     return InkWell(
-                      onTap: () {
-                        Navigator.pop(context, course); // return course
-                      },
+                      onTap: () => Navigator.pop(context, course),
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -87,7 +111,6 @@ Future<CourseModel?> showLeadCourseBottomSheet(BuildContext context) {
                           ],
                         ),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                               child: Text(
@@ -98,7 +121,6 @@ Future<CourseModel?> showLeadCourseBottomSheet(BuildContext context) {
                                   color: AppColors.black,
                                 ),
                                 softWrap: true,
-                                maxLines: 3,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),

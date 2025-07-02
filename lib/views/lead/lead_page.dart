@@ -192,17 +192,15 @@ class _LeadPageState extends State<LeadPage> {
 
                           final selectedCourse =
                               await showLeadCourseBottomSheet(context);
-                          if (selectedCourse != null) {
-                            provider.updateFilters(
-                              course: selectedCourse.courseId,
-                              status: provider.selectedStatus,
-                              source: provider.selectedSource,
-                              fromDate: provider.selectedFromDate,
-                              toDate: provider.selectedToDate,
-                            );
-                            if (context.mounted) {
-                              await provider.fetchAndSetFilteredLeads(context);
-                            }
+                          provider.updateFilters(
+                            course: selectedCourse?.courseId,
+                            status: provider.selectedStatus,
+                            source: provider.selectedSource,
+                            fromDate: provider.selectedFromDate,
+                            toDate: provider.selectedToDate,
+                          );
+                          if (context.mounted) {
+                            await provider.fetchAndSetFilteredLeads(context);
                           }
                         },
                       ),

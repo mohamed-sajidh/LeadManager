@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
-import 'package:lead_manager/view_models/access_view_model.dart';
-import 'package:provider/provider.dart';
 
 class InterviewPage extends StatelessWidget {
   const InterviewPage({super.key});
@@ -9,30 +7,53 @@ class InterviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.secondaryColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        toolbarHeight: 70,
         title: const Text(
-          "Interview Page",
-          style: TextStyle(color: AppColors.white),
+          "Interview",
+          style: TextStyle(
+            color: AppColors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         backgroundColor: AppColors.primaryColor,
       ),
-      body: Column(
-        children: [
-          const Text("Welcome to Interview page"),
-          Consumer<AccessViewModel>(builder: (context, provider, child) {
-            return InkWell(
-              onTap: () {
-                provider.isLogout();
-              },
-              child: Container(
-                height: 30,
-                width: 100,
-                color: AppColors.red,
+      body: const Center(
+        child: Padding(
+          padding: EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.construction,
+                size: 64,
+                color: AppColors.grey,
               ),
-            );
-          })
-        ],
+              SizedBox(height: 16),
+              Text(
+                "This page is under development",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 8),
+              Text(
+                "We're working hard to make this feature available soon.",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: AppColors.grey,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

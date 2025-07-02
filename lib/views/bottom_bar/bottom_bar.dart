@@ -90,7 +90,7 @@ class _BottomBarState extends State<BottomBar> with TickerProviderStateMixin {
                     /// Curved Background
                     Center(
                       child: Container(
-                        height: 60,
+                        height: 130,
                         margin: const EdgeInsets.symmetric(horizontal: 24),
                         decoration: BoxDecoration(
                           color: AppColors.white,
@@ -105,46 +105,72 @@ class _BottomBarState extends State<BottomBar> with TickerProviderStateMixin {
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: List.generate(4, (index) {
-                            final icons = [
-                              Icons.home,
-                              Icons.assignment,
-                              Icons.calendar_today,
-                              Icons.person,
-                            ];
-                            final isSelected = _selectedIndex == index;
+                          children: List.generate(
+                            4,
+                            (index) {
+                              final icons = [
+                                Icons.home,
+                                Icons.assignment,
+                                Icons.calendar_today,
+                                Icons.person,
+                              ];
+                              final isSelected = _selectedIndex == index;
 
-                            return GestureDetector(
-                              onTap: () => _onItemTapped(index),
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeOutQuad,
-                                padding: const EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: isSelected
-                                      ? AppColors.primaryColor.withOpacity(0.1)
-                                      : Colors.transparent,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: ScaleTransition(
-                                  scale: isSelected
-                                      ? Tween(begin: 1.0, end: 1.3)
-                                          .animate(CurvedAnimation(
-                                          parent: _bounceController,
-                                          curve: Curves.easeOutBack,
-                                        ))
-                                      : const AlwaysStoppedAnimation(1.0),
-                                  child: Icon(
-                                    icons[index],
+                              return GestureDetector(
+                                onTap: () => _onItemTapped(index),
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeOutQuad,
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
                                     color: isSelected
                                         ? AppColors.primaryColor
-                                        : AppColors.grey,
-                                    size: 28,
+                                            .withOpacity(0.1)
+                                        : Colors.transparent,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: ScaleTransition(
+                                    scale: isSelected
+                                        ? Tween(begin: 1.0, end: 1.3).animate(
+                                            CurvedAnimation(
+                                              parent: _bounceController,
+                                              curve: Curves.easeOutBack,
+                                            ),
+                                          )
+                                        : const AlwaysStoppedAnimation(1.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          icons[index],
+                                          color: isSelected
+                                              ? AppColors.primaryColor
+                                              : AppColors.grey,
+                                          size: 24,
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          [
+                                            'Home',
+                                            'Leads',
+                                            'Interview',
+                                            'Profile'
+                                          ][index],
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500,
+                                            color: isSelected
+                                                ? AppColors.primaryColor
+                                                : AppColors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),

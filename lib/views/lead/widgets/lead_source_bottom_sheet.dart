@@ -24,7 +24,7 @@ Future<LeadSourceModel?> showLeadSourceBottomSheet(BuildContext context) {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header
+              /// Header
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -36,7 +36,7 @@ Future<LeadSourceModel?> showLeadSourceBottomSheet(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Select Status Source",
+                      "Select Lead Source",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -44,14 +44,8 @@ Future<LeadSourceModel?> showLeadSourceBottomSheet(BuildContext context) {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.close,
-                        color: AppColors.white,
-                        size: 24,
-                      ),
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(Icons.close, color: AppColors.white),
                     ),
                   ],
                 ),
@@ -59,22 +53,51 @@ Future<LeadSourceModel?> showLeadSourceBottomSheet(BuildContext context) {
 
               const SizedBox(height: 10),
 
-              // List of Courses
+              /// List of Lead Sources + Clear option
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: leadProvider.leadSourceItem.length,
+                  itemCount: leadProvider.leadSourceItem.length + 1,
                   separatorBuilder: (_, __) => const Divider(height: 1),
                   itemBuilder: (context, index) {
-                    final leadSource = leadProvider.leadSourceItem[index];
+                    if (index == 0) {
+                      return InkWell(
+                        onTap: () => Navigator.pop(context, null),
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: AppColors.red.withOpacity(0.08),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                                color: AppColors.red.withOpacity(0.4)),
+                          ),
+                          child: const Row(
+                            children: [
+                              Icon(Icons.clear, color: AppColors.red),
+                              SizedBox(width: 10),
+                              Text(
+                                "Clear Source Filter",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+
+                    final leadSource = leadProvider.leadSourceItem[index - 1];
                     return InkWell(
-                      onTap: () {
-                        Navigator.pop(context, leadSource); // return course
-                      },
+                      onTap: () => Navigator.pop(context, leadSource),
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 14),
+                            vertical: 14, horizontal: 16),
                         decoration: BoxDecoration(
                           color: AppColors.white,
                           borderRadius: BorderRadius.circular(12),
@@ -87,7 +110,6 @@ Future<LeadSourceModel?> showLeadSourceBottomSheet(BuildContext context) {
                           ],
                         ),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                               child: Text(
@@ -97,15 +119,10 @@ Future<LeadSourceModel?> showLeadSourceBottomSheet(BuildContext context) {
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.black,
                                 ),
-                                softWrap: true,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            const Icon(
-                              Icons.chevron_right,
-                              color: AppColors.grey,
-                            ),
+                            const Icon(Icons.chevron_right,
+                                color: AppColors.grey),
                           ],
                         ),
                       ),

@@ -260,17 +260,15 @@ class _LeadPageState extends State<LeadPage> {
 
                           final selectedSource =
                               await showLeadSourceBottomSheet(context);
-                          if (selectedSource != null) {
-                            provider.updateFilters(
-                              status: provider.selectedStatus,
-                              course: provider.selectedCourseId,
-                              source: selectedSource.sourceId,
-                              fromDate: provider.selectedFromDate,
-                              toDate: provider.selectedToDate,
-                            );
-                            if (context.mounted) {
-                              await provider.fetchAndSetFilteredLeads(context);
-                            }
+                          provider.updateFilters(
+                            status: provider.selectedStatus,
+                            course: provider.selectedCourseId,
+                            source: selectedSource?.sourceId,
+                            fromDate: provider.selectedFromDate,
+                            toDate: provider.selectedToDate,
+                          );
+                          if (context.mounted) {
+                            await provider.fetchAndSetFilteredLeads(context);
                           }
                         },
                       ),

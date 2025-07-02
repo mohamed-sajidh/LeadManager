@@ -280,9 +280,8 @@ class _LeadPageState extends State<LeadPage> {
                         onTap: () async {
                           final result = await showDateBottomSheet(context);
 
-                          if (result == null) return; // User cancelled
+                          if (result == null) return;
 
-                          // 🔴 Handle Clear
                           if (result.isEmpty) {
                             provider.updateFilters(
                               status: provider.selectedStatus,

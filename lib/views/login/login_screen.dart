@@ -39,166 +39,178 @@ class _LoginScreenState extends State<LoginScreen> {
     final loginProvider = Provider.of<LoginViewModel>(context);
     return Scaffold(
       backgroundColor: AppColors.white,
-      body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 110),
-                Center(
-                  child: RichText(
-                    text: const TextSpan(
-                      text: 'Login to ',
-                      style: TextStyle(
-                        fontSize: 23,
-                        color: AppColors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: ' Lead Manager',
-                          style: TextStyle(
-                            fontSize: 23,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.primaryColor,
-                          ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // App Branding
+                  const SizedBox(height: 30),
+                  Center(
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(
+                        text: 'Welcome to\n',
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: AppColors.black,
+                          fontWeight: FontWeight.w500,
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                textWidget("We're happy to see you back here"),
-                const SizedBox(height: 30),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: textWidget("Email"),
-                ),
-                const SizedBox(height: 5),
-                TextFormField(
-                  controller: emailIdTextcontroller,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'required';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AppColors.white,
-                    hintText: "Email",
-                    hintStyle: const TextStyle(color: AppColors.grey),
-
-                    // When enabled but not focused
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColors.grey, width: 1.5),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-
-                    // When focusedsdfd
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: AppColors.primaryColor, width: 2.0),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-
-                    // Default border (fallback)
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: AppColors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: textWidget("Password"),
-                ),
-                const SizedBox(height: 5),
-                TextFormField(
-                  obscureText: _obscurePassword,
-                  controller: passwordTextcontroller,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'required';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: AppColors.white,
-                    hintText: "Password",
-                    hintStyle: const TextStyle(color: AppColors.grey),
-
-                    // Eye Icon for show/hide
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscurePassword
-                            ? Icons.visibility_off
-                            : Icons.visibility,
-                        color: AppColors.grey,
+                        children: [
+                          TextSpan(
+                            text: 'Lead Manager',
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        ],
                       ),
-                      onPressed: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                    ),
-
-                    // Border styling
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: AppColors.grey, width: 1.5),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: AppColors.primaryColor, width: 2.0),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(color: AppColors.grey),
-                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                LoginButtonWidget(
-                  text: "Login",
-                  onPressed: () {
-                    loginProvider.userLogin(
-                      emailIdTextcontroller.text,
-                      passwordTextcontroller.text,
-                      context,
-                    );
-                  },
-                  loading: loginProvider.isLoading,
-                  formKey: formKey,
-                ),
-                const SizedBox(height: 30),
-                textWidget("Or login with"),
-                const SizedBox(height: 30),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconWidget(
-                      text: "Facebook",
-                      img: AppAssets.facebookIcon,
-                    ),
-                    IconWidget(
-                      text: "Google",
-                      img: AppAssets.googleIcon,
-                    ),
-                  ],
-                )
-              ],
+                  const SizedBox(height: 8),
+                  textWidget("Log in to manage your leads effectively."),
+                  const SizedBox(height: 40),
+
+                  // Email Input
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: textWidget("Email"),
+                  ),
+                  const SizedBox(height: 6),
+                  _buildInputField(
+                    controller: emailIdTextcontroller,
+                    hint: "Enter your email",
+                    validatorText: "Email is required",
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Password Input
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: textWidget("Password"),
+                  ),
+                  const SizedBox(height: 6),
+                  _buildInputField(
+                    controller: passwordTextcontroller,
+                    hint: "Enter your password",
+                    isPassword: true,
+                    obscureText: _obscurePassword,
+                    toggleObscure: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                    validatorText: "Password is required",
+                  ),
+
+                  const SizedBox(height: 25),
+                  LoginButtonWidget(
+                    text: "Login",
+                    onPressed: () {
+                      loginProvider.userLogin(
+                        emailIdTextcontroller.text,
+                        passwordTextcontroller.text,
+                        context,
+                      );
+                    },
+                    loading: loginProvider.isLoading,
+                    formKey: formKey,
+                  ),
+
+                  const SizedBox(height: 30),
+                  textWidget("Or sign in with"),
+                  const SizedBox(height: 20),
+
+                  // Social Logins
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  "Facebook login is not available right now."),
+                              backgroundColor: AppColors.redAccent,
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        },
+                        child: const IconWidget(
+                          text: "Facebook",
+                          img: AppAssets.facebookIcon,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                  "Google login is not available right now."),
+                              backgroundColor: AppColors.redAccent,
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        },
+                        child: const IconWidget(
+                          text: "Google",
+                          img: AppAssets.googleIcon,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInputField({
+    required TextEditingController controller,
+    required String hint,
+    required String validatorText,
+    bool isPassword = false,
+    bool obscureText = false,
+    VoidCallback? toggleObscure,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) return validatorText;
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: hint,
+        filled: true,
+        fillColor: AppColors.white,
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  obscureText ? Icons.visibility_off : Icons.visibility,
+                  color: AppColors.grey,
+                ),
+                onPressed: toggleObscure,
+              )
+            : null,
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: AppColors.grey),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: AppColors.primaryColor, width: 2),
         ),
       ),
     );

@@ -105,7 +105,7 @@ class _LeadPageState extends State<LeadPage> {
                                 onPressed: () async {
                                   FocusScope.of(context).unfocus();
                                   _searchController.clear();
-        
+
                                   provider.updateFilters(
                                     search: '',
                                     status: provider.selectedStatus,
@@ -114,7 +114,7 @@ class _LeadPageState extends State<LeadPage> {
                                     fromDate: provider.selectedFromDate,
                                     toDate: provider.selectedToDate,
                                   );
-        
+
                                   if (provider.isFiltering) {
                                     await provider
                                         .fetchAndSetFilteredLeads(context);
@@ -168,6 +168,7 @@ class _LeadPageState extends State<LeadPage> {
                 builder: (context, provider, child) {
                   return Row(
                     children: [
+                      // course--
                       buildFilterButton(
                         label: "Select Course",
                         icon: Icons.filter_list,
@@ -181,14 +182,14 @@ class _LeadPageState extends State<LeadPage> {
                               child: AppLoadingIndicator(size: 35),
                             ),
                           );
-        
+
                           await provider.getAllCourses();
-        
+
                           // Close the loader
                           if (context.mounted) Navigator.of(context).pop();
-        
+
                           if (!context.mounted) return;
-        
+
                           final selectedCourse =
                               await showLeadCourseBottomSheet(context);
                           if (selectedCourse != null) {
@@ -205,11 +206,12 @@ class _LeadPageState extends State<LeadPage> {
                           }
                         },
                       ),
+
+                      // status --
                       buildFilterButton(
                         label: "Lead Status",
                         isSelected: provider.selectedStatus != null,
                         onTap: () async {
-                          // Show loading dialog
                           showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -217,35 +219,33 @@ class _LeadPageState extends State<LeadPage> {
                               child: AppLoadingIndicator(size: 35),
                             ),
                           );
-        
+
                           await provider.getAllStatus();
-        
-                          // Dismiss loader
+
                           if (context.mounted) Navigator.of(context).pop();
-        
+
                           if (!context.mounted) return;
-        
+
                           final selectedStatus =
                               await showLeadStatusBottomSheet(context);
-                          if (selectedStatus != null) {
-                            provider.updateFilters(
-                              status: selectedStatus.statusId,
-                              course: provider.selectedCourseId,
-                              source: provider.selectedSource,
-                              fromDate: provider.selectedFromDate,
-                              toDate: provider.selectedToDate,
-                            );
-                            if (context.mounted) {
-                              await provider.fetchAndSetFilteredLeads(context);
-                            }
+                          provider.updateFilters(
+                            status: selectedStatus?.statusId,
+                            course: provider.selectedCourseId,
+                            source: provider.selectedSource,
+                            fromDate: provider.selectedFromDate,
+                            toDate: provider.selectedToDate,
+                          );
+                          if (context.mounted) {
+                            await provider.fetchAndSetFilteredLeads(context);
                           }
                         },
                       ),
+
+                      // source --
                       buildFilterButton(
                         label: "Lead Source",
                         isSelected: provider.selectedSource != null,
                         onTap: () async {
-                          // Show loader
                           showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -253,14 +253,13 @@ class _LeadPageState extends State<LeadPage> {
                               child: AppLoadingIndicator(size: 35),
                             ),
                           );
-        
+
                           await provider.getAllLeadSource();
-        
-                          // Dismiss loader
+
                           if (context.mounted) Navigator.of(context).pop();
-        
+
                           if (!context.mounted) return;
-        
+
                           final selectedSource =
                               await showLeadSourceBottomSheet(context);
                           if (selectedSource != null) {
@@ -277,7 +276,8 @@ class _LeadPageState extends State<LeadPage> {
                           }
                         },
                       ),
-        
+
+                      // date
                       buildFilterButton(
                         label: "select Date",
                         isSelected: provider.selectedFromDate != null,
@@ -286,12 +286,12 @@ class _LeadPageState extends State<LeadPage> {
                           if (result != null) {
                             final from = result['from'];
                             final to = result['to'];
-        
+
                             final formattedFrom =
                                 DateFormat('yyyy-MM-dd').format(from!);
                             final formattedTo =
                                 DateFormat('yyyy-MM-dd').format(to!);
-        
+
                             provider.updateFilters(
                               status: provider.selectedStatus,
                               course: provider.selectedCourseId,
@@ -305,12 +305,6 @@ class _LeadPageState extends State<LeadPage> {
                           }
                         },
                       ),
-        
-                      // buildFilterButton(
-                      //     label: "select Date",
-                      //     onTap: () {
-                      //       showDateBottomSheet(context);
-                      //     }),
                     ],
                   );
                 },
@@ -323,9 +317,9 @@ class _LeadPageState extends State<LeadPage> {
                     if (provider.isLoadingFilteredLeads) {
                       return const Center(child: AppLoadingIndicator(size: 35));
                     }
-        
+
                     final leads = provider.filteredLeads;
-        
+
                     if (leads.isEmpty) {
                       return const Center(
                         child: Column(
@@ -357,7 +351,7 @@ class _LeadPageState extends State<LeadPage> {
                         ),
                       );
                     }
-        
+
                     return ListView.separated(
                       itemCount: leads.length,
                       itemBuilder: (context, index) =>

@@ -12,45 +12,40 @@ Future<StatusModel?> showLeadStatusBottomSheet(BuildContext context) {
     isScrollControlled: true,
     backgroundColor: AppColors.secondaryColor,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
     builder: (BuildContext context) {
       return Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: SizedBox(
           height: 500,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header
+              /// Header
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 decoration: const BoxDecoration(
                   color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
                     const Text(
-                      "Select Status",
+                      "Select Lead Status",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: AppColors.white,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Icon(
-                        Icons.close,
-                        color: AppColors.white,
-                        size: 24,
+                    Positioned(
+                      right: 16,
+                      child: GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: const Icon(Icons.close, color: AppColors.white),
                       ),
                     ),
                   ],
@@ -59,35 +54,64 @@ Future<StatusModel?> showLeadStatusBottomSheet(BuildContext context) {
 
               const SizedBox(height: 10),
 
-              // List of Courses
+              /// Status List with Clear Filter
               Expanded(
                 child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: leadProvider.statusItem.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
+                  padding: const EdgeInsets.all(16),
+                  itemCount: leadProvider.statusItem.length + 1,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
                   itemBuilder: (context, index) {
-                    final status = leadProvider.statusItem[index];
+                    if (index == 0) {
+                      // 🔴 Clear Status Filter
+                      return InkWell(
+                        onTap: () => Navigator.pop(context, null),
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.red.withOpacity(0.08),
+                            borderRadius: BorderRadius.circular(12),
+                            border:
+                                Border.all(color: Colors.red.withOpacity(0.4)),
+                          ),
+                          child: Row(
+                            children: const [
+                              Icon(Icons.clear, color: Colors.red),
+                              SizedBox(width: 10),
+                              Text(
+                                "Clear Status Filter",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+
+                    final status = leadProvider.statusItem[index - 1];
                     return InkWell(
-                      onTap: () {
-                        Navigator.pop(context, status); // return course
-                      },
+                      onTap: () => Navigator.pop(context, status),
                       borderRadius: BorderRadius.circular(12),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 14),
+                            vertical: 14, horizontal: 16),
                         decoration: BoxDecoration(
                           color: AppColors.white,
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: AppColors.grey.withOpacity(0.05),
-                              blurRadius: 6,
+                              color: Colors.black12.withOpacity(0.04),
+                              blurRadius: 4,
                               offset: const Offset(0, 2),
                             ),
                           ],
                         ),
                         child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                               child: Text(
@@ -97,15 +121,10 @@ Future<StatusModel?> showLeadStatusBottomSheet(BuildContext context) {
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.black,
                                 ),
-                                softWrap: true,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            const Icon(
-                              Icons.chevron_right,
-                              color: AppColors.grey,
-                            ),
+                            const Icon(Icons.chevron_right,
+                                color: AppColors.grey),
                           ],
                         ),
                       ),

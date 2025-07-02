@@ -5,6 +5,7 @@ import 'package:lead_manager/models/lead_model.dart';
 import 'package:lead_manager/view_models/lead_view_model.dart';
 import 'package:lead_manager/views/lead/widgets/build_widgets.dart';
 import 'package:lead_manager/views/lead/widgets/course_bottom_sheet.dart';
+import 'package:lead_manager/views/lead/widgets/date_bottom_sheet.dart';
 import 'package:lead_manager/views/lead/widgets/lead_search.dart';
 import 'package:lead_manager/views/lead/widgets/lead_source_bottom_sheet.dart';
 import 'package:lead_manager/views/lead/widgets/single_lead_card.dart';
@@ -196,7 +197,11 @@ class _LeadPageState extends State<LeadPage> {
                         }
                       },
                     ),
-                    buildFilterButton(label: "Lead Source", onTap: () {}),
+                    buildFilterButton(
+                        label: "select Date",
+                        onTap: () {
+                          showDateBottomSheet(context);
+                        }),
                   ],
                 );
               },

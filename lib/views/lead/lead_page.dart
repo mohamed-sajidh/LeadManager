@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/models/lead_model.dart';
 import 'package:lead_manager/view_models/lead_view_model.dart';
@@ -122,6 +123,8 @@ class _LeadPageState extends State<LeadPage> {
                             course: selectedCourse.courseId,
                             status: provider.selectedStatus,
                             source: provider.selectedSource,
+                            fromDate: provider.selectedFromDate,
+                            toDate: provider.selectedToDate,
                           );
                           if (context.mounted) {
                             await provider.fetchAndSetFilteredLeads(context);
@@ -156,6 +159,8 @@ class _LeadPageState extends State<LeadPage> {
                             status: selectedStatus.statusId,
                             course: provider.selectedCourseId,
                             source: provider.selectedSource,
+                            fromDate: provider.selectedFromDate,
+                            toDate: provider.selectedToDate,
                           );
                           if (context.mounted) {
                             await provider.fetchAndSetFilteredLeads(context);
@@ -190,6 +195,8 @@ class _LeadPageState extends State<LeadPage> {
                             status: provider.selectedStatus,
                             course: provider.selectedCourseId,
                             source: selectedSource.sourceId,
+                            fromDate: provider.selectedFromDate,
+                            toDate: provider.selectedToDate,
                           );
                           if (context.mounted) {
                             await provider.fetchAndSetFilteredLeads(context);
@@ -197,11 +204,40 @@ class _LeadPageState extends State<LeadPage> {
                         }
                       },
                     ),
+
                     buildFilterButton(
-                        label: "select Date",
-                        onTap: () {
-                          showDateBottomSheet(context);
-                        }),
+                      label: "select Date",
+                      isSelected: provider.selectedFromDate != null,
+                      onTap: () async {
+                        final result = await showDateBottomSheet(context);
+                        if (result != null) {
+                          final from = result['from'];
+                          final to = result['to'];
+
+                          final formattedFrom =
+                              DateFormat('yyyy-MM-dd').format(from!);
+                          final formattedTo =
+                              DateFormat('yyyy-MM-dd').format(to!);
+
+                          provider.updateFilters(
+                            status: provider.selectedStatus,
+                            course: provider.selectedCourseId,
+                            source: provider.selectedSource,
+                            fromDate: formattedFrom,
+                            toDate: formattedTo,
+                          );
+                          if (context.mounted) {
+                            await provider.fetchAndSetFilteredLeads(context);
+                          }
+                        }
+                      },
+                    ),
+
+                    // buildFilterButton(
+                    //     label: "select Date",
+                    //     onTap: () {
+                    //       showDateBottomSheet(context);
+                    //     }),
                   ],
                 );
               },

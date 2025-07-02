@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 
-void showDateBottomSheet(BuildContext context) {
+Future<Map<String, DateTime>?> showDateBottomSheet(BuildContext context) {
   DateTime? fromDate;
   DateTime? toDate;
   String? errorMessage;
 
-  showModalBottomSheet<void>(
+  return showModalBottomSheet<Map<String, DateTime>>(
     context: context,
     isScrollControlled: true,
     backgroundColor: AppColors.secondaryColor,
@@ -55,7 +55,6 @@ void showDateBottomSheet(BuildContext context) {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 20),
 
                   // From Date
@@ -140,7 +139,7 @@ void showDateBottomSheet(BuildContext context) {
 
                   const Spacer(),
 
-                  // Error Message (if any)
+                  // Error message
                   if (errorMessage != null)
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -218,8 +217,8 @@ void showDateBottomSheet(BuildContext context) {
                               });
 
                               Navigator.pop(context, {
-                                'from': fromDate,
-                                'to': toDate,
+                                'from': fromDate!,
+                                'to': toDate!,
                               });
                             },
                             child: const Text("Apply"),

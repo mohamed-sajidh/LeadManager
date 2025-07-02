@@ -25,6 +25,8 @@ class LeadViewModel extends ChangeNotifier {
   String? searchQuery;
   int? selectedStatus;
   String? selectedSource;
+  String? selectedFromDate;
+  String? selectedToDate;
   List<LeadModel> _filteredLeads = [];
   List<LeadModel> get filteredLeads => _filteredLeads;
 
@@ -33,6 +35,8 @@ class LeadViewModel extends ChangeNotifier {
     searchQuery = null;
     selectedStatus = null;
     selectedSource = null;
+    selectedFromDate = null;
+    selectedToDate = null;
     _filteredLeads = [];
     notifyListeners();
   }
@@ -51,6 +55,12 @@ class LeadViewModel extends ChangeNotifier {
     }
     if (selectedSource != null && selectedSource!.isNotEmpty) {
       queryParams['lead_source'] = selectedSource!;
+    }
+    if (selectedFromDate != null && selectedFromDate!.isNotEmpty) {
+      queryParams['date_from'] = selectedFromDate!;
+    }
+    if (selectedToDate != null && selectedToDate!.isNotEmpty) {
+      queryParams['date_to'] = selectedToDate!;
     }
 
     isLoadingFilteredLeads = true;
@@ -92,11 +102,15 @@ class LeadViewModel extends ChangeNotifier {
     String? search,
     int? status,
     String? source,
+    String? fromDate,
+    String? toDate,
   }) {
     selectedCourseId = course;
     searchQuery = search;
     selectedStatus = status;
     selectedSource = source;
+    selectedFromDate = fromDate;
+    selectedToDate = toDate;
     notifyListeners();
   }
 
@@ -154,43 +168,6 @@ class LeadViewModel extends ChangeNotifier {
     }
   }
 
-  Future<List<LeadModel>> fetchFilteredLeads({
-    int? courseId,
-    String? search,
-    String? status,
-    String? source,
-  }) async {
-    try {
-      getFilteredLoader = true;
-      notifyListeners();
-
-      final Map<String, String> queryParams = {};
-      if (courseId != null) queryParams['course'] = courseId.toString();
-      if (search != null && search.trim().isNotEmpty) {
-        queryParams['search'] = search.trim();
-      }
-      if (status != null && status.trim().isNotEmpty) {
-        queryParams['lead_status'] = status.trim();
-      }
-
-      if (source != null && source.trim().isNotEmpty) {
-        queryParams['lead_source'] = source.trim();
-      }
-
-      final leadRepo = LeadRepository();
-      final leads = await leadRepo.getFilteredLeads(queryParams);
-      filteredLeadItem = leads;
-
-      return leads;
-    } catch (e) {
-      print("Error fetching leads: $e");
-      return [];
-    } finally {
-      getFilteredLoader = false;
-      notifyListeners();
-    }
-  }
-
   Future<List<LeadModel>> getPaginatedFilteredLeads(
       int page, BuildContext context) async {
     try {
@@ -208,6 +185,12 @@ class LeadViewModel extends ChangeNotifier {
       }
       if (selectedSource != null && selectedSource!.isNotEmpty) {
         queryParams['lead_source'] = selectedSource!;
+      }
+      if (selectedFromDate != null && selectedFromDate!.isNotEmpty) {
+        queryParams['date_from'] = selectedFromDate!;
+      }
+      if (selectedToDate != null && selectedToDate!.isNotEmpty) {
+        queryParams['date_to'] = selectedToDate!;
       }
 
       // Only include page if no filters are applied
@@ -238,7 +221,9 @@ class LeadViewModel extends ChangeNotifier {
       selectedCourseId != null ||
       (searchQuery != null && searchQuery!.isNotEmpty) ||
       selectedStatus != null ||
-      (selectedSource != null && selectedSource!.isNotEmpty);
+      (selectedSource != null && selectedSource!.isNotEmpty) ||
+      (selectedFromDate != null && selectedFromDate!.isNotEmpty) ||
+      (selectedToDate != null && selectedToDate!.isNotEmpty);
 
   Future<List<StatusModel>> getAllStatus() async {
     try {

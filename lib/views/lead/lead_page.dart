@@ -7,7 +7,6 @@ import 'package:lead_manager/view_models/lead_view_model.dart';
 import 'package:lead_manager/views/lead/widgets/build_widgets.dart';
 import 'package:lead_manager/views/lead/widgets/course_bottom_sheet.dart';
 import 'package:lead_manager/views/lead/widgets/date_bottom_sheet.dart';
-import 'package:lead_manager/views/lead/widgets/lead_search.dart';
 import 'package:lead_manager/views/lead/widgets/lead_source_bottom_sheet.dart';
 import 'package:lead_manager/views/lead/widgets/single_lead_card.dart';
 import 'package:lead_manager/views/lead/widgets/status_bottom_sheet.dart';
@@ -23,12 +22,14 @@ class LeadPage extends StatefulWidget {
 
 class _LeadPageState extends State<LeadPage> {
   late final PagingController<int, LeadModel> _pagingController;
+  late final TextEditingController _searchController;
 
   @override
   void initState() {
     super.initState();
 
     final leadProvider = Provider.of<LeadViewModel>(context, listen: false);
+    _searchController = TextEditingController();
 
     _pagingController = PagingController<int, LeadModel>(
       getNextPageKey: (state) =>
@@ -41,6 +42,7 @@ class _LeadPageState extends State<LeadPage> {
   @override
   void dispose() {
     _pagingController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -74,20 +76,88 @@ class _LeadPageState extends State<LeadPage> {
           ),
         ),
         backgroundColor: AppColors.primaryColor,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search, color: AppColors.white),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: LeadSearchDelegate(),
-              );
-            },
-          ),
-        ],
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: Material(
+              elevation: 2,
+              borderRadius: BorderRadius.circular(12),
+              shadowColor: Colors.black12,
+              child: Consumer<LeadViewModel>(
+                builder: (context, provider, _) {
+                  return TextField(
+                    controller: _searchController,
+                    style: const TextStyle(fontSize: 14),
+                    decoration: InputDecoration(
+                      hintText: 'Search leads...',
+                      hintStyle: const TextStyle(color: AppColors.grey),
+                      prefixIcon:
+                          const Icon(Icons.search, color: AppColors.grey),
+                      suffixIcon: provider.searchQuery != null &&
+                              provider.searchQuery!.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.close,
+                                  color: AppColors.grey),
+                              onPressed: () async {
+                                _searchController.clear();
+
+                                provider.updateFilters(
+                                  search: '',
+                                  status: provider.selectedStatus,
+                                  course: provider.selectedCourseId,
+                                  source: provider.selectedSource,
+                                  fromDate: provider.selectedFromDate,
+                                  toDate: provider.selectedToDate,
+                                );
+
+                                if (provider.isFiltering) {
+                                  await provider
+                                      .fetchAndSetFilteredLeads(context);
+                                } else {
+                                  _pagingController.refresh();
+                                }
+                              },
+                            )
+                          : null,
+                      filled: true,
+                      fillColor: AppColors.white,
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 0),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide:
+                            const BorderSide(color: AppColors.transparent),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: const BorderSide(
+                            color: AppColors.primaryColor, width: 1.5),
+                      ),
+                    ),
+                    onChanged: (value) async {
+                      provider.updateFilters(
+                        search: value,
+                        status: provider.selectedStatus,
+                        course: provider.selectedCourseId,
+                        source: provider.selectedSource,
+                        fromDate: provider.selectedFromDate,
+                        toDate: provider.selectedToDate,
+                      );
+                      if (context.mounted) {
+                        if (provider.isFiltering) {
+                          await provider.fetchAndSetFilteredLeads(context);
+                        } else {
+                          _pagingController.refresh();
+                        }
+                      }
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),

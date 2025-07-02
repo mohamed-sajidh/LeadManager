@@ -29,15 +29,16 @@ class LeadViewModel extends ChangeNotifier {
   String? selectedToDate;
   List<LeadModel> _filteredLeads = [];
   List<LeadModel> get filteredLeads => _filteredLeads;
+  bool isFiltering = false;
 
   void clearFilters() {
-    selectedCourseId = null;
-    searchQuery = null;
     selectedStatus = null;
+    selectedCourseId = null;
     selectedSource = null;
     selectedFromDate = null;
     selectedToDate = null;
-    _filteredLeads = [];
+    searchQuery = null;
+    isFiltering = false;
     notifyListeners();
   }
 
@@ -111,6 +112,15 @@ class LeadViewModel extends ChangeNotifier {
     selectedSource = source;
     selectedFromDate = fromDate;
     selectedToDate = toDate;
+    notifyListeners();
+
+    isFiltering = (search != null && search.isNotEmpty) ||
+        status != null ||
+        course != null ||
+        source != null ||
+        (fromDate != null && fromDate.isNotEmpty) ||
+        (toDate != null && toDate.isNotEmpty);
+
     notifyListeners();
   }
 
@@ -217,13 +227,13 @@ class LeadViewModel extends ChangeNotifier {
     }
   }
 
-  bool get isFiltering =>
-      selectedCourseId != null ||
-      (searchQuery != null && searchQuery!.isNotEmpty) ||
-      selectedStatus != null ||
-      (selectedSource != null && selectedSource!.isNotEmpty) ||
-      (selectedFromDate != null && selectedFromDate!.isNotEmpty) ||
-      (selectedToDate != null && selectedToDate!.isNotEmpty);
+  // bool get isFiltering =>
+  //     selectedCourseId != null ||
+  //     (searchQuery != null && searchQuery!.isNotEmpty) ||
+  //     selectedStatus != null ||
+  //     (selectedSource != null && selectedSource!.isNotEmpty) ||
+  //     (selectedFromDate != null && selectedFromDate!.isNotEmpty) ||
+  //     (selectedToDate != null && selectedToDate!.isNotEmpty);
 
   Future<List<StatusModel>> getAllStatus() async {
     try {

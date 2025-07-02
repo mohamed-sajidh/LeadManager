@@ -16,4 +16,5 @@ class AppColors {
   static const deepBrown = 0xFF4E342E;
   static const softCream = 0xFFFFF8E1;
   static const successSnackbarColor = Color.fromARGB(184, 16, 15, 15);
+  static const transparent = Colors.transparent;
 }

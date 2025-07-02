@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:lead_manager/core/services/navigation_service.dart';
 import 'package:lead_manager/models/course_model.dart';
 import 'package:lead_manager/models/lead_details_model.dart';
 import 'package:lead_manager/models/lead_model.dart';
 import 'package:lead_manager/models/lead_source_model.dart';
 import 'package:lead_manager/models/status_model.dart';
 import 'package:lead_manager/repositories/lead_repository.dart';
+import 'package:lead_manager/routes/app_routes.dart';
 import 'package:lead_manager/widgets/custom_snackbar.dart';
 
 class LeadViewModel extends ChangeNotifier {
@@ -128,7 +130,7 @@ class LeadViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<PaginatedLeadResponse> getAllLeads(int page) async {
+  Future<PaginatedLeadResponse?> getAllLeads(int page) async {
     try {
       print("page number:- $page");
       getLeadsLoader = true;
@@ -139,9 +141,17 @@ class LeadViewModel extends ChangeNotifier {
       leadItem = leads;
 
       return leads;
-    } catch (e) {
-      print("Error Occurred while fetching the Leads: $e");
-      rethrow;
+    } on Exception catch (e) {
+      if (e.toString().contains("No token found")) {
+        navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          AppRoutes.login,
+          (route) => false,
+        );
+        return null; // ✅ DO NOT rethrow
+      } else {
+        print("Error Occurred while fetching the Leads: $e");
+        rethrow; // Optional: only if you want to escalate other errors
+      }
     } finally {
       getLeadsLoader = false;
       notifyListeners();

@@ -24,11 +24,17 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
-  void checkOnboardingScreen(context) async {
+  void checkOnboardingScreen(BuildContext context) async {
     final accessProvider = Provider.of<AccessViewModel>(context, listen: false);
     final leadProvider = Provider.of<LeadViewModel>(context, listen: false);
+
     await accessProvider.checkLoginStatus();
-    await leadProvider.getAllLeads(1);
+
+    final leads = await leadProvider.getAllLeads(1);
+
+    // ❗️If token is missing or 401 error, getAllLeads will return null and already navigate to login
+    if (leads == null) return;
+
     await leadProvider.getAllCourses();
     await leadProvider.getTodayLeads();
     await leadProvider.getCompletedLeads();

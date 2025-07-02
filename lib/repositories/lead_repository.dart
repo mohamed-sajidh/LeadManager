@@ -8,7 +8,7 @@ import 'package:lead_manager/models/status_model.dart';
 class LeadRepository {
   final _api = LeadApiServices();
 
-  Future<List<LeadModel>> getLeads(int page) async {
+  Future<PaginatedLeadResponse> getLeads(int page) async {
     final response = await _api.getLeads(page);
     return response;
   }
@@ -41,6 +41,16 @@ class LeadRepository {
 
   Future<List<LeadSourceModel>> getLeadSource() async {
     final response = await _api.getLeadSource();
+    return response;
+  }
+
+  Future<PaginatedLeadResponse> getTodayLeads() async {
+    final response = await _api.getTodayLeads();
+    return response;
+  }
+
+  Future<PaginatedLeadResponse> getCompletedLeads() async {
+    final response = await _api.getCompletedLeads();
     return response;
   }
 }

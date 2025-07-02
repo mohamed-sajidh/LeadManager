@@ -5,6 +5,7 @@ import 'package:lead_manager/core/utils/app_assets.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/routes/app_routes.dart';
 import 'package:lead_manager/view_models/access_view_model.dart';
+import 'package:lead_manager/view_models/lead_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,9 +24,14 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
-  void checkOnboardingScreen(context) {
+  void checkOnboardingScreen(context) async {
     final accessProvider = Provider.of<AccessViewModel>(context, listen: false);
-    accessProvider.checkLoginStatus();
+    final leadProvider = Provider.of<LeadViewModel>(context, listen: false);
+    await accessProvider.checkLoginStatus();
+    await leadProvider.getAllLeads(1);
+    await leadProvider.getAllCourses();
+    await leadProvider.getTodayLeads();
+    await leadProvider.getCompletedLeads();
 
     Timer(
       const Duration(seconds: 1),

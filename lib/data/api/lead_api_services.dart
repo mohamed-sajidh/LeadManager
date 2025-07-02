@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:lead_manager/core/constants/api_constants.dart';
 import 'package:lead_manager/core/constants/dio_client.dart';
 import 'package:lead_manager/models/course_model.dart';
@@ -7,17 +8,14 @@ import 'package:lead_manager/models/lead_source_model.dart';
 import 'package:lead_manager/models/status_model.dart';
 
 class LeadApiServices {
-  Future<List<LeadModel>> getLeads(int page) async {
+  Future<PaginatedLeadResponse> getLeads(int page) async {
     try {
       final dio = await DioClient().getAuthorizedDio();
 
       final response = await dio.get('${ApiConstants.leadEndPoint}?page=$page');
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> jsonData = response.data;
-        final List<dynamic> leadJson = jsonData['results'];
-
-        return leadJson.map((item) => LeadModel.fromJson(item)).toList();
+        return PaginatedLeadResponse.fromJson(response.data);
       } else {
         throw Exception('Failed to load Leads');
       }
@@ -147,6 +145,43 @@ class LeadApiServices {
       }
     } catch (e) {
       throw Exception('Error getting Lead Source: $e');
+    }
+  }
+
+  Future<PaginatedLeadResponse> getTodayLeads() async {
+    try {
+      final dio = await DioClient().getAuthorizedDio();
+
+      final today = DateTime.now();
+      final formattedDate = DateFormat('yyyy-MM-dd').format(today);
+
+      final response = await dio.get(
+          '${ApiConstants.leadEndPoint}?date_from=$formattedDate&date_to=$formattedDate');
+
+      if (response.statusCode == 200) {
+        return PaginatedLeadResponse.fromJson(response.data);
+      } else {
+        throw Exception('Failed to load Today\'s Leads');
+      }
+    } catch (e) {
+      throw Exception('Error getting Today\'s Leads: $e');
+    }
+  }
+
+  Future<PaginatedLeadResponse> getCompletedLeads() async {
+    try {
+      final dio = await DioClient().getAuthorizedDio();
+
+      final response =
+          await dio.get('${ApiConstants.leadEndPoint}?lead_status=28');
+
+      if (response.statusCode == 200) {
+        return PaginatedLeadResponse.fromJson(response.data);
+      } else {
+        throw Exception('Failed to load Completed Leads');
+      }
+    } catch (e) {
+      throw Exception('Error getting Completed Leads: $e');
     }
   }
 }

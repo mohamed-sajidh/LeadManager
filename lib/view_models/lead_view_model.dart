@@ -15,12 +15,16 @@ class LeadViewModel extends ChangeNotifier {
   bool getStatusLoader = false;
   bool getLeadSourceLoader = false;
   bool isLoadingFilteredLeads = false;
-  List<LeadModel> leadItem = [];
+  bool getTodaysLeadLoader = false;
+  bool getCompletedLeadLoader = false;
+  PaginatedLeadResponse? leadItem;
   List<CourseModel> coursesItem = [];
   List<StatusModel> statusItem = [];
   List<LeadModel> filteredLeadItem = [];
   List<LeadSourceModel> leadSourceItem = [];
   LeadDetailsModel? singleLeadItem;
+  PaginatedLeadResponse? todayLeadItem;
+  PaginatedLeadResponse? completedLeadItem;
   int? selectedCourseId;
   String? searchQuery;
   int? selectedStatus;
@@ -124,7 +128,7 @@ class LeadViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<LeadModel>> getAllLeads(int page) async {
+  Future<PaginatedLeadResponse> getAllLeads(int page) async {
     try {
       print("page number:- $page");
       getLeadsLoader = true;
@@ -227,14 +231,6 @@ class LeadViewModel extends ChangeNotifier {
     }
   }
 
-  // bool get isFiltering =>
-  //     selectedCourseId != null ||
-  //     (searchQuery != null && searchQuery!.isNotEmpty) ||
-  //     selectedStatus != null ||
-  //     (selectedSource != null && selectedSource!.isNotEmpty) ||
-  //     (selectedFromDate != null && selectedFromDate!.isNotEmpty) ||
-  //     (selectedToDate != null && selectedToDate!.isNotEmpty);
-
   Future<List<StatusModel>> getAllStatus() async {
     try {
       getStatusLoader = true;
@@ -269,6 +265,44 @@ class LeadViewModel extends ChangeNotifier {
       rethrow;
     } finally {
       getLeadSourceLoader = false;
+      notifyListeners();
+    }
+  }
+
+  Future<PaginatedLeadResponse> getTodayLeads() async {
+    try {
+      getTodaysLeadLoader = true;
+      notifyListeners();
+
+      final leadRepo = LeadRepository();
+      final leads = await leadRepo.getTodayLeads();
+      todayLeadItem = leads;
+
+      return leads;
+    } catch (e) {
+      print("Error Occurred while fetching the Leads: $e");
+      rethrow;
+    } finally {
+      getTodaysLeadLoader = false;
+      notifyListeners();
+    }
+  }
+
+  Future<PaginatedLeadResponse> getCompletedLeads() async {
+    try {
+      getCompletedLeadLoader = true;
+      notifyListeners();
+
+      final leadRepo = LeadRepository();
+      final leads = await leadRepo.getCompletedLeads();
+      completedLeadItem = leads;
+
+      return leads;
+    } catch (e) {
+      print("Error Occurred while fetching the Leads: $e");
+      rethrow;
+    } finally {
+      getCompletedLeadLoader = false;
       notifyListeners();
     }
   }

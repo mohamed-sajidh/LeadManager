@@ -4,7 +4,16 @@ import 'package:lead_manager/core/utils/app_colors.dart';
 class SingleCard extends StatelessWidget {
   final IconData cardIcon;
   final String cardText;
-  const SingleCard({super.key, required this.cardIcon, required this.cardText});
+  final int count;
+  final bool isLoading;
+
+  const SingleCard({
+    super.key,
+    required this.cardIcon,
+    required this.cardText,
+    required this.count,
+    this.isLoading = false, // default false
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +27,8 @@ class SingleCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 10),
               Icon(cardIcon, size: 40, color: AppColors.primaryColor),
               const SizedBox(height: 10),
               Text(
@@ -30,11 +39,23 @@ class SingleCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 5),
-              const Text(
-                "120",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
+              const SizedBox(height: 10),
+              isLoading
+                  ? const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.primaryColor,
+                      ),
+                    )
+                  : Text(
+                      count.toString(),
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
             ],
           ),
         ),

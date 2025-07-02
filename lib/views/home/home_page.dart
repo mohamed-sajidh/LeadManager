@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lead_manager/core/utils/app_colors.dart';
 import 'package:lead_manager/routes/app_routes.dart';
+import 'package:lead_manager/view_models/lead_view_model.dart';
 import 'package:lead_manager/view_models/profile_view_model.dart';
 import 'package:lead_manager/views/home/widgets/single_card.dart';
 import 'package:provider/provider.dart';
@@ -176,25 +177,51 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: const SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              Row(
+      body: SingleChildScrollView(
+        child: Consumer<LeadViewModel>(
+          builder: (context, provider, child) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
                 children: [
-                  SingleCard(
-                    cardIcon: Icons.leaderboard,
-                    cardText: "Total Leads",
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SingleCard(
+                        cardIcon: Icons.leaderboard,
+                        cardText: "Total Leads",
+                        count: provider.leadItem?.count ?? 0,
+                        isLoading: provider.getLeadsLoader,
+                      ),
+                      SingleCard(
+                        cardIcon: Icons.menu_book,
+                        cardText: "Total Course",
+                        count: provider.coursesItem.length,
+                        isLoading: provider.getCoursesLoader,
+                      ),
+                    ],
                   ),
-                  SingleCard(
-                    cardIcon: Icons.menu_book,
-                    cardText: "Total Course",
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SingleCard(
+                        cardIcon: Icons.today,
+                        cardText: "Today's Leads",
+                        count: provider.todayLeadItem?.count ?? 0,
+                        isLoading: provider.getTodaysLeadLoader,
+                      ),
+                      SingleCard(
+                        cardIcon: Icons.check_circle_outline,
+                        cardText: "Completed Leads",
+                        count: provider.completedLeadItem?.count ?? 0,
+                        isLoading: provider.getCompletedLeadLoader,
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

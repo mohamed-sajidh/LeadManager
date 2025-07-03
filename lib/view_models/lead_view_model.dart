@@ -81,26 +81,26 @@ class LeadViewModel extends ChangeNotifier {
       isLoadingFilteredLeads = false;
       notifyListeners();
 
-      if (isFiltering) {
-        if (_filteredLeads.isNotEmpty) {
-          if (context.mounted) {
-            showCustomSnackbar(context, "${response.count} leads found.");
-          }
-        } else {
-          if (context.mounted) {
-            showCustomSnackbar(context, "No leads found.");
-          }
-        }
-      }
+      // if (isFiltering) {
+      //   if (_filteredLeads.isNotEmpty) {
+      //     if (context.mounted) {
+      //       showCustomSnackbar(context, "${response.count} leads found.");
+      //     }
+      //   } else {
+      //     if (context.mounted) {
+      //       showCustomSnackbar(context, "No leads found.");
+      //     }
+      //   }
+      // }
     } catch (e) {
       print("Error fetching filtered leads: $e");
       _filteredLeads = [];
       isLoadingFilteredLeads = false;
       notifyListeners();
 
-      if (isFiltering && context.mounted) {
-        showCustomSnackbar(context, "Failed to fetch leads.");
-      }
+      // if (isFiltering && context.mounted) {
+      //   showCustomSnackbar(context, "Failed to fetch leads.");
+      // }
     }
   }
 
@@ -234,7 +234,7 @@ class LeadViewModel extends ChangeNotifier {
           showCustomSnackbar(context, "${response.count} leads");
         }
       }
-      return response.results; // ✅ Extract leads list
+      return response.results;
     } catch (e) {
       print("Error in getPaginatedFilteredLeads: $e");
       return [];

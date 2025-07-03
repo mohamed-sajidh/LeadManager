@@ -122,7 +122,7 @@ class _LeadDetailPageState extends State<LeadDetailPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             iconWithLabel(
-                              imagePath: AppAssets.callIcon,
+                              imagePath: AppAssets.phoneImgNew,
                               label: "Call",
                               onTap: () {
                                 callLauncher(singleLead.phoneNumber);
@@ -130,7 +130,7 @@ class _LeadDetailPageState extends State<LeadDetailPage> {
                             ),
                             const SizedBox(width: 30),
                             iconWithLabel(
-                              imagePath: AppAssets.whatsappIcon,
+                              imagePath: AppAssets.whatsappImgNew,
                               label: "WhatsApp",
                               onTap: () async {
                                 await whatsappLauncher(singleLead.phoneNumber);

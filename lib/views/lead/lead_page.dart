@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
-import 'package:lead_manager/models/lead_model.dart';
-import 'package:lead_manager/view_models/lead_view_model.dart';
-import 'package:lead_manager/views/lead/widgets/build_widgets.dart';
-import 'package:lead_manager/views/lead/widgets/course_bottom_sheet.dart';
-import 'package:lead_manager/views/lead/widgets/date_bottom_sheet.dart';
-import 'package:lead_manager/views/lead/widgets/lead_source_bottom_sheet.dart';
-import 'package:lead_manager/views/lead/widgets/single_lead_card.dart';
-import 'package:lead_manager/views/lead/widgets/status_bottom_sheet.dart';
-import 'package:lead_manager/widgets/custom_loader.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
+import 'package:leadmanager/models/lead_model.dart';
+import 'package:leadmanager/view_models/lead_view_model.dart';
+import 'package:leadmanager/views/lead/widgets/build_widgets.dart';
+import 'package:leadmanager/views/lead/widgets/course_bottom_sheet.dart';
+import 'package:leadmanager/views/lead/widgets/date_bottom_sheet.dart';
+import 'package:leadmanager/views/lead/widgets/lead_source_bottom_sheet.dart';
+import 'package:leadmanager/views/lead/widgets/single_lead_card.dart';
+import 'package:leadmanager/views/lead/widgets/status_bottom_sheet.dart';
+import 'package:leadmanager/widgets/custom_loader.dart';
 import 'package:provider/provider.dart';
 
 class LeadPage extends StatefulWidget {

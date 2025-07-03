@@ -1,5 +1,5 @@
-import 'package:lead_manager/data/api/profile_api_services.dart';
-import 'package:lead_manager/models/profile_model.dart';
+import 'package:leadmanager/data/api/profile_api_services.dart';
+import 'package:leadmanager/models/profile_model.dart';
 
 class ProfileRepository {
   final _api = ProfileApiServices();

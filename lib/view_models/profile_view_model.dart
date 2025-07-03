@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/models/profile_model.dart';
-import 'package:lead_manager/repositories/profile_repository.dart';
+import 'package:leadmanager/models/profile_model.dart';
+import 'package:leadmanager/repositories/profile_repository.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class ProfileViewModel extends ChangeNotifier {

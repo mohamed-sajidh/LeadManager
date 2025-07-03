@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
-import 'package:lead_manager/views/profile/widgets/logout_popup.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
+import 'package:leadmanager/views/profile/widgets/logout_popup.dart';
 
 class LogoutTile extends StatelessWidget {
   const LogoutTile({super.key});

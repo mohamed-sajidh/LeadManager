@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class AppLoadingIndicator extends StatelessWidget {

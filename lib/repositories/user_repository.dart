@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/data/api/user_api_services.dart';
+import 'package:leadmanager/data/api/user_api_services.dart';
 
 class UserRepository {
   final _api = UserApiServices();

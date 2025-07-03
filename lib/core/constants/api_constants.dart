@@ -1,4 +1,4 @@
-import 'package:lead_manager/core/config.dart';
+import 'package:leadmanager/core/config.dart';
 
 class ApiConstants {
   static String baseUrl = ApiConfig.baseUrl;

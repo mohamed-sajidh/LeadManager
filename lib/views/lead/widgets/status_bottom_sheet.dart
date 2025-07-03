@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/models/status_model.dart';
-import 'package:lead_manager/view_models/lead_view_model.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
+import 'package:leadmanager/models/status_model.dart';
+import 'package:leadmanager/view_models/lead_view_model.dart';
 import 'package:provider/provider.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
 
 Future<StatusModel?> showLeadStatusBottomSheet(BuildContext context) {
   final leadProvider = Provider.of<LeadViewModel>(context, listen: false);

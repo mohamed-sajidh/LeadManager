@@ -1,6 +1,6 @@
-import 'package:lead_manager/core/constants/api_constants.dart';
-import 'package:lead_manager/core/constants/dio_client.dart';
-import 'package:lead_manager/models/profile_model.dart';
+import 'package:leadmanager/core/constants/api_constants.dart';
+import 'package:leadmanager/core/constants/dio_client.dart';
+import 'package:leadmanager/models/profile_model.dart';
 
 class ProfileApiServices {
   Future<ProfileModel> getUserProfile() async {

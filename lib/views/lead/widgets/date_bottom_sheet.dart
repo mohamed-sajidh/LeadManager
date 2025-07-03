@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
 
 Future<Map<String, DateTime>?> showDateBottomSheet(BuildContext context) {
   DateTime? fromDate;

@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
-import 'package:lead_manager/routes/app_routes.dart';
-import 'package:lead_manager/view_models/lead_view_model.dart';
-import 'package:lead_manager/view_models/profile_view_model.dart';
-import 'package:lead_manager/views/home/widgets/single_card.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
+import 'package:leadmanager/routes/app_routes.dart';
+import 'package:leadmanager/view_models/lead_view_model.dart';
+import 'package:leadmanager/view_models/profile_view_model.dart';
+import 'package:leadmanager/views/home/widgets/single_card.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {

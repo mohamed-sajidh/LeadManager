@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
-import 'package:lead_manager/view_models/profile_view_model.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
+import 'package:leadmanager/view_models/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class VersionTile extends StatelessWidget {

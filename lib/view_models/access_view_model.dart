@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/data/local/token_storage.dart';
+import 'package:leadmanager/data/local/token_storage.dart';
 
 class AccessViewModel extends ChangeNotifier {
   bool checkingIsLoggedIn = false;

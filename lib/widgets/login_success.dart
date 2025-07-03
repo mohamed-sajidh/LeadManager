@@ -1,6 +1,6 @@
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
 
 void showSuccessMessage(BuildContext context, String message) {
   showFlash(

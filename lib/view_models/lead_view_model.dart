@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/services/navigation_service.dart';
-import 'package:lead_manager/models/course_model.dart';
-import 'package:lead_manager/models/lead_details_model.dart';
-import 'package:lead_manager/models/lead_model.dart';
-import 'package:lead_manager/models/lead_source_model.dart';
-import 'package:lead_manager/models/status_model.dart';
-import 'package:lead_manager/repositories/lead_repository.dart';
-import 'package:lead_manager/routes/app_routes.dart';
-import 'package:lead_manager/widgets/custom_snackbar.dart';
+import 'package:leadmanager/core/services/navigation_service.dart';
+import 'package:leadmanager/models/course_model.dart';
+import 'package:leadmanager/models/lead_details_model.dart';
+import 'package:leadmanager/models/lead_model.dart';
+import 'package:leadmanager/models/lead_source_model.dart';
+import 'package:leadmanager/models/status_model.dart';
+import 'package:leadmanager/repositories/lead_repository.dart';
+import 'package:leadmanager/routes/app_routes.dart';
+import 'package:leadmanager/widgets/custom_snackbar.dart';
 
 class LeadViewModel extends ChangeNotifier {
   bool getLeadsLoader = false;

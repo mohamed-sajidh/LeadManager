@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/constants/api_constants.dart';
-import 'package:lead_manager/data/local/token_storage.dart';
-import 'package:lead_manager/view_models/access_view_model.dart';
-import 'package:lead_manager/view_models/lead_view_model.dart';
-import 'package:lead_manager/view_models/profile_view_model.dart';
+import 'package:leadmanager/core/constants/api_constants.dart';
+import 'package:leadmanager/data/local/token_storage.dart';
+import 'package:leadmanager/view_models/access_view_model.dart';
+import 'package:leadmanager/view_models/lead_view_model.dart';
+import 'package:leadmanager/view_models/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
 class UserApiServices {

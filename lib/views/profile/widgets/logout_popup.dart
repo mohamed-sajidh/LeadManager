@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/routes/app_routes.dart';
-import 'package:lead_manager/view_models/access_view_model.dart';
+import 'package:leadmanager/routes/app_routes.dart';
+import 'package:leadmanager/view_models/access_view_model.dart';
 import 'package:provider/provider.dart';
 
 void showLogoutDialog(BuildContext context) {

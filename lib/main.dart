@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:lead_manager/app.dart';
-import 'package:lead_manager/core/providers.dart';
+import 'package:leadmanager/app.dart';
+import 'package:leadmanager/core/providers.dart';
 import 'package:provider/provider.dart';
 
 void main() async {

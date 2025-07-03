@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
 
 void showOverlayError(BuildContext context, String message) {
   OverlayEntry overlayEntry = OverlayEntry(

@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/services/navigation_service.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
-import 'package:lead_manager/data/local/token_storage.dart';
-import 'package:lead_manager/routes/app_routes.dart';
+import 'package:leadmanager/core/services/navigation_service.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
+import 'package:leadmanager/data/local/token_storage.dart';
+import 'package:leadmanager/routes/app_routes.dart';
 
 class DioClient {
   static final DioClient _instance = DioClient._internal();

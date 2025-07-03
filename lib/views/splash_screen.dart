@@ -1,11 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/utils/app_assets.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
-import 'package:lead_manager/routes/app_routes.dart';
-import 'package:lead_manager/view_models/access_view_model.dart';
-import 'package:lead_manager/view_models/lead_view_model.dart';
+import 'package:leadmanager/core/utils/app_assets.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
+import 'package:leadmanager/routes/app_routes.dart';
+import 'package:leadmanager/view_models/access_view_model.dart';
+import 'package:leadmanager/view_models/lead_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
-import 'package:lead_manager/views/home/home_page.dart';
-import 'package:lead_manager/views/interview/interview_page.dart';
-import 'package:lead_manager/views/lead/lead_page.dart';
-import 'package:lead_manager/views/profile/profile_page.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
+import 'package:leadmanager/views/home/home_page.dart';
+import 'package:leadmanager/views/interview/interview_page.dart';
+import 'package:leadmanager/views/lead/lead_page.dart';
+import 'package:leadmanager/views/profile/profile_page.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({super.key});

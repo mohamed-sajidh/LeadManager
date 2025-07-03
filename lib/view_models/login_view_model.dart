@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/repositories/user_repository.dart';
-import 'package:lead_manager/routes/app_routes.dart';
-import 'package:lead_manager/widgets/error_toast.dart';
-import 'package:lead_manager/widgets/login_success.dart';
+import 'package:leadmanager/repositories/user_repository.dart';
+import 'package:leadmanager/routes/app_routes.dart';
+import 'package:leadmanager/widgets/error_toast.dart';
+import 'package:leadmanager/widgets/login_success.dart';
 
 class LoginViewModel extends ChangeNotifier {
   bool isLoading = false;

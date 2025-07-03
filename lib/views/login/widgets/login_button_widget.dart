@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
-import 'package:lead_manager/widgets/custom_loader.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
+import 'package:leadmanager/widgets/custom_loader.dart';
 
 class LoginButtonWidget extends StatelessWidget {
   final String text;

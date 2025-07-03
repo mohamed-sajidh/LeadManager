@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/utils/app_assets.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
+import 'package:leadmanager/core/utils/app_assets.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
 
 void showCustomSnackbar(BuildContext context, String message) {
   final snackBar = SnackBar(

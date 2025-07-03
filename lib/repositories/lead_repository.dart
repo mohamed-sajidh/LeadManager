@@ -1,9 +1,9 @@
-import 'package:lead_manager/data/api/lead_api_services.dart';
-import 'package:lead_manager/models/course_model.dart';
-import 'package:lead_manager/models/lead_details_model.dart';
-import 'package:lead_manager/models/lead_model.dart';
-import 'package:lead_manager/models/lead_source_model.dart';
-import 'package:lead_manager/models/status_model.dart';
+import 'package:leadmanager/data/api/lead_api_services.dart';
+import 'package:leadmanager/models/course_model.dart';
+import 'package:leadmanager/models/lead_details_model.dart';
+import 'package:leadmanager/models/lead_model.dart';
+import 'package:leadmanager/models/lead_source_model.dart';
+import 'package:leadmanager/models/status_model.dart';
 
 class LeadRepository {
   final _api = LeadApiServices();

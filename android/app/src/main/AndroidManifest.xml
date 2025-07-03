@@ -12,7 +12,7 @@
 
 
     <application
-        android:label="lead_manager"
+        android:label="leadmanager"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

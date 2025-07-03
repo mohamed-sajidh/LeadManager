@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lead_manager/core/services/navigation_service.dart';
-import 'package:lead_manager/routes/app_routes.dart';
-import 'package:lead_manager/routes/route_generator.dart';
+import 'package:leadmanager/core/services/navigation_service.dart';
+import 'package:leadmanager/routes/app_routes.dart';
+import 'package:leadmanager/routes/route_generator.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

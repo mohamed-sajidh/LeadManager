@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:lead_manager/core/services/call_service.dart';
-import 'package:lead_manager/core/services/whatsapp_services.dart';
-import 'package:lead_manager/core/utils/app_assets.dart';
-import 'package:lead_manager/core/utils/app_colors.dart';
-import 'package:lead_manager/view_models/lead_view_model.dart';
-import 'package:lead_manager/views/lead/widgets/build_widgets.dart';
+import 'package:leadmanager/core/services/call_service.dart';
+import 'package:leadmanager/core/services/whatsapp_services.dart';
+import 'package:leadmanager/core/utils/app_assets.dart';
+import 'package:leadmanager/core/utils/app_colors.dart';
+import 'package:leadmanager/view_models/lead_view_model.dart';
+import 'package:leadmanager/views/lead/widgets/build_widgets.dart';
 import 'package:provider/provider.dart';
 
 class LeadDetailPage extends StatefulWidget {

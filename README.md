@@ -16,6 +16,8 @@ LeadManager is a Flutter application to manage and view leads efficiently. Built
 - Flutter
 - Provider (State Management)
 - MVVM Architecture
+- REST API Integration
+- flutter_dotenv (for secure environment configs)
 
 🔧 Installation
 
@@ -23,3 +25,5 @@ LeadManager is a Flutter application to manage and view leads efficiently. Built
 - cd LeadManager
 - flutter pub get
 - flutter run
+
+⚠️ Important: This project will not run without the .env file. Make sure to create it inside the assets/ folder before running the app.
